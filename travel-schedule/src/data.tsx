@@ -1,8 +1,8 @@
-import React from 'react';
-import { FaPlaneDeparture, FaPlaneArrival, FaSuitcase, FaUserFriends, FaBuilding, FaQuestionCircle, FaGamepad } from 'react-icons/fa';
+import { FaPlaneDeparture, FaPlaneArrival, FaSuitcase, FaBuilding, FaQuestionCircle, FaGamepad } from 'react-icons/fa';
 
 export const schedule = [
   {
+    id: 'day-05-28',
     date: '05/28 (二)',
     title: '啟程：飛往日本',
     subtitle: '長榮航空 BR192',
@@ -11,6 +11,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(33, 150, 243)', color: '#fff' },
   },
   {
+    id: 'day-05-29',
     date: '05/29 (三)',
     title: '主要活動日',
     subtitle: '',
@@ -19,6 +20,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(233, 30, 99)', color: '#fff' },
   },
   {
+    id: 'day-05-30',
     date: '05/30 (四)',
     title: '城市散步 & Pokémon Go',
     subtitle: '輕鬆探索',
@@ -27,6 +29,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(76, 175, 80)', color: '#fff' },
   },
   {
+    id: 'day-05-31',
     date: '05/31 (五)',
     title: '城市散步 & Pokémon Go',
     subtitle: '持續探索',
@@ -35,6 +38,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(76, 175, 80)', color: '#fff' },
   },
   {
+    id: 'day-06-01',
     date: '06/01 (六)',
     title: '彈性日 / 工作安排',
     subtitle: '本日未定',
@@ -43,6 +47,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
   },
   {
+    id: 'day-06-02',
     date: '06/02 (日)',
     title: '更換飯店 & 會面',
     subtitle: '行程變動日',
@@ -51,6 +56,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(156, 39, 176)', color: '#fff' },
   },
   {
+    id: 'day-06-03',
     date: '06/03 (一)',
     title: '未定',
     subtitle: '',
@@ -59,6 +65,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
   },
   {
+    id: 'day-06-04',
     date: '06/04 (二)',
     title: '未定',
     subtitle: '',
@@ -67,14 +74,16 @@ export const schedule = [
     iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
   },
   {
+    id: 'day-06-05',
     date: '06/05 (三)',
     title: '未定',
     subtitle: '',
     details: '請在此填寫您的計畫...',
     icon: <FaQuestionCircle />,
-    iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
+    iconStyle: { background: 'rgb(255, 150, 0)', color: '#fff' },
   },
   {
+    id: 'day-06-06',
     date: '06/06 (四)',
     title: '未定',
     subtitle: '',
@@ -83,6 +92,7 @@ export const schedule = [
     iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
   },
   {
+    id: 'day-06-07',
     date: '06/07 (五)',
     title: '歸途：返回台灣',
     subtitle: '全日空 NH851',
