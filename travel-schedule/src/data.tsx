@@ -3,7 +3,7 @@ import { FaPlaneDeparture, FaPlaneArrival, FaMapMarkerAlt, FaSuitcaseRolling, Fa
 
 export const schedule = [
   {
-    date: '05/28 (二)',
+    date: '05/28 (四)',
     events: [
       {
         time: '07:20',
@@ -22,7 +22,7 @@ export const schedule = [
     ]
   },
   {
-    date: '05/29 (三)',
+    date: '05/29 (五)',
     events: [
       {
         time: '全天',
@@ -34,7 +34,7 @@ export const schedule = [
     ]
   },
   {
-    date: '05/30 (四)',
+    date: '05/30 (六)',
     events: [
       {
         time: '全天',
@@ -46,7 +46,7 @@ export const schedule = [
     ]
   },
   {
-    date: '05/31 (五)',
+    date: '05/31 (日)',
     events: [
       {
         time: '全天',
@@ -58,7 +58,7 @@ export const schedule = [
     ]
   },
   {
-    date: '06/01 (六)',
+    date: '06/01 (一)',
     events: [
       {
         time: '全天',
@@ -70,7 +70,7 @@ export const schedule = [
     ]
   },
   {
-    date: '06/02 (日)',
+    date: '06/02 (二)',
     events: [
       {
         time: '下午',
@@ -82,7 +82,7 @@ export const schedule = [
     ]
   },
   {
-    date: '06/03 (一)',
+    date: '06/03 (三)',
     events: [
       {
         time: '未定',
@@ -94,7 +94,7 @@ export const schedule = [
     ]
   },
   {
-    date: '06/04 (二)',
+    date: '06/04 (四)',
     events: [
       {
         time: '未定',
@@ -106,7 +106,7 @@ export const schedule = [
     ]
   },
   {
-    date: '06/05 (三)',
+    date: '06/05 (五)',
     events: [
       {
         time: '未定',
@@ -118,7 +118,7 @@ export const schedule = [
     ]
   },
   {
-    date: '06/06 (四)',
+    date: '06/06 (六)',
     events: [
       {
         time: '未定',
@@ -130,7 +130,7 @@ export const schedule = [
     ]
   },
   {
-    date: '06/07 (五)',
+    date: '06/07 (日)',
     events: [
       {
         time: '09:40',
