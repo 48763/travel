@@ -1,103 +1,151 @@
-import { FaPlaneDeparture, FaPlaneArrival, FaSuitcase, FaBuilding, FaQuestionCircle, FaGamepad } from 'react-icons/fa';
+import React from 'react';
+import { FaPlaneDeparture, FaPlaneArrival, FaMapMarkerAlt, FaSuitcaseRolling, FaGamepad, FaBriefcase, FaQuestionCircle } from 'react-icons/fa';
 
 export const schedule = [
   {
-    id: 'day-05-28',
     date: '05/28 (二)',
-    title: '啟程：飛往日本',
-    subtitle: '長榮航空 BR192',
-    details: '7:20 台北松山 (TSA) -> 11:30 東京羽田 (HND)',
-    icon: <FaPlaneDeparture />,
-    iconStyle: { background: 'rgb(33, 150, 243)', color: '#fff' },
+    events: [
+      {
+        time: '07:20',
+        title: '啟程飛往日本',
+        details: '長榮航空 BR192\n台北松山 (TSA)',
+        icon: <FaPlaneDeparture />,
+        iconColor: '#094a9d'
+      },
+      {
+        time: '11:30',
+        title: '抵達日本',
+        details: '東京羽田 (HND)',
+        icon: <FaPlaneArrival />,
+        iconColor: '#2a8deb'
+      }
+    ]
   },
   {
-    id: 'day-05-29',
     date: '05/29 (三)',
-    title: '主要活動日',
-    subtitle: '',
-    details: '本日為行程重點，請填寫詳細計畫。',
-    icon: <FaBuilding />,
-    iconStyle: { background: 'rgb(233, 30, 99)', color: '#fff' },
+    events: [
+      {
+        time: '全天',
+        title: '主要活動日',
+        details: '本日為行程重點，請填寫詳細計畫。',
+        icon: <FaMapMarkerAlt />,
+        iconColor: '#e74c3c'
+      }
+    ]
   },
   {
-    id: 'day-05-30',
     date: '05/30 (四)',
-    title: '城市散步 & Pokémon Go',
-    subtitle: '輕鬆探索',
-    details: '可彈性調整，或考慮下午處理工作。',
-    icon: <FaGamepad />,
-    iconStyle: { background: 'rgb(76, 175, 80)', color: '#fff' },
+    events: [
+      {
+        time: '全天',
+        title: '城市散步 & Pokémon Go',
+        details: '可彈性調整，或考慮下午處理工作。',
+        icon: <FaGamepad />,
+        iconColor: '#2ecc71'
+      }
+    ]
   },
   {
-    id: 'day-05-31',
     date: '05/31 (五)',
-    title: '城市散步 & Pokémon Go',
-    subtitle: '持續探索',
-    details: '探索城市的其他區域。',
-    icon: <FaGamepad />,
-    iconStyle: { background: 'rgb(76, 175, 80)', color: '#fff' },
+    events: [
+      {
+        time: '全天',
+        title: '城市散步 & Pokémon Go',
+        details: '探索城市的其他區域。',
+        icon: <FaGamepad />,
+        iconColor: '#2ecc71'
+      }
+    ]
   },
   {
-    id: 'day-06-01',
     date: '06/01 (六)',
-    title: '彈性日 / 工作安排',
-    subtitle: '本日未定',
-    details: '可以安排處理工作事務，或安排短程觀光。',
-    icon: <FaQuestionCircle />,
-    iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
+    events: [
+      {
+        time: '全天',
+        title: '彈性日 / 工作安排',
+        details: '可以安排處理工作事務，或安排短程觀光。',
+        icon: <FaBriefcase />,
+        iconColor: '#f39c12'
+      }
+    ]
   },
   {
-    id: 'day-06-02',
     date: '06/02 (日)',
-    title: '更換飯店 & 會面',
-    subtitle: '行程變動日',
-    details: '下午與「布來燈」碰面。',
-    icon: <FaSuitcase />,
-    iconStyle: { background: 'rgb(156, 39, 176)', color: '#fff' },
+    events: [
+      {
+        time: '下午',
+        title: '更換飯店 & 會面',
+        details: '與「布來燈」碰面。',
+        icon: <FaSuitcaseRolling />,
+        iconColor: '#9b59b6'
+      }
+    ]
   },
   {
-    id: 'day-06-03',
     date: '06/03 (一)',
-    title: '未定',
-    subtitle: '',
-    details: '請在此填寫您的計畫...',
-    icon: <FaQuestionCircle />,
-    iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
+    events: [
+      {
+        time: '未定',
+        title: '未定行程',
+        details: '請在此填寫您的計畫...',
+        icon: <FaQuestionCircle />,
+        iconColor: '#95a5a6'
+      }
+    ]
   },
   {
-    id: 'day-06-04',
     date: '06/04 (二)',
-    title: '未定',
-    subtitle: '',
-    details: '請在此填寫您的計畫...',
-    icon: <FaQuestionCircle />,
-    iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
+    events: [
+      {
+        time: '未定',
+        title: '未定行程',
+        details: '請在此填寫您的計畫...',
+        icon: <FaQuestionCircle />,
+        iconColor: '#95a5a6'
+      }
+    ]
   },
   {
-    id: 'day-06-05',
     date: '06/05 (三)',
-    title: '未定',
-    subtitle: '',
-    details: '請在此填寫您的計畫...',
-    icon: <FaQuestionCircle />,
-    iconStyle: { background: 'rgb(255, 150, 0)', color: '#fff' },
+    events: [
+      {
+        time: '未定',
+        title: '未定行程',
+        details: '請在此填寫您的計畫...',
+        icon: <FaQuestionCircle />,
+        iconColor: '#95a5a6'
+      }
+    ]
   },
   {
-    id: 'day-06-06',
     date: '06/06 (四)',
-    title: '未定',
-    subtitle: '',
-    details: '請在此填寫您的計畫...',
-    icon: <FaQuestionCircle />,
-    iconStyle: { background: 'rgb(255, 152, 0)', color: '#fff' },
+    events: [
+      {
+        time: '未定',
+        title: '未定行程',
+        details: '請在此填寫您的計畫...',
+        icon: <FaQuestionCircle />,
+        iconColor: '#95a5a6'
+      }
+    ]
   },
   {
-    id: 'day-06-07',
     date: '06/07 (五)',
-    title: '歸途：返回台灣',
-    subtitle: '全日空 NH851',
-    details: '9:40 東京羽田 (HND) -> 12:05 台北松山 (TSA)',
-    icon: <FaPlaneArrival />,
-    iconStyle: { background: 'rgb(33, 150, 243)', color: '#fff' },
+    events: [
+      {
+        time: '09:40',
+        title: '起飛：返回台灣',
+        details: '全日空 NH851\n東京羽田 (HND)',
+        icon: <FaPlaneDeparture />,
+        iconColor: '#094a9d'
+      },
+      {
+        time: '12:05',
+        title: '抵達台灣',
+        details: '台北松山 (TSA)',
+        icon: <FaPlaneArrival />,
+        iconColor: '#2a8deb'
+      }
+    ]
   },
 ];
