@@ -1,0 +1,8 @@
+services:
+  travel-schedule:
+    build: .
+    image: travel-schedule:latest
+    container_name: travel-schedule-app
+    ports:
+      - "8080:80"
+    restart: unless-stopped
