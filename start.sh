@@ -4,13 +4,11 @@
 
 echo "🚀 正在準備啟動日本旅遊時程網頁..."
 
-# 檢查是否在正確的目錄
-if [ ! -d "travel-schedule" ]; then
-    echo "❌ 找不到 travel-schedule 目錄，請在專案根目錄執行此腳本。"
+# 檢查是否在正確的目錄 (檢查是否有 package.json)
+if [ ! -f "package.json" ]; then
+    echo "❌ 找不到 package.json，請在專案根目錄執行此腳本。"
     exit 1
 fi
-
-cd travel-schedule
 
 # 檢查是否有 node_modules，沒有的話則安裝
 if [ ! -d "node_modules" ]; then
