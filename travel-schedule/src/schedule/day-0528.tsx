@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaPlaneDeparture, FaPlaneArrival, FaHotel, FaUtensils, FaShoppingBag } from 'react-icons/fa';
+import { FaPlaneDeparture, FaPlaneArrival, FaTrain, FaHotel, FaUtensils, FaShoppingBag } from 'react-icons/fa';
 
 export const day0528 = {
   date: '05/28 (四)',
@@ -19,6 +19,24 @@ export const day0528 = {
       address: '羽田機場 (HND)',
       icon: <FaPlaneArrival />,
       iconColor: '#2a8deb'
+    },
+    {
+      time: '13:00',
+      title: '前往 維拉芳泉東京有明大飯店',
+      lines: [
+        { 
+          name: 'KK', 
+          color: '#e60012', 
+          description: '京急線, 往品川, 羽田機場第3航廈 -> 大井町, 約 20 分鐘' 
+        },
+        { 
+          name: 'R', 
+          color: '#00a0e2', 
+          description: '臨海線, 往新木場, 大井町 -> 有明網球之森, 約 10 分鐘' 
+        }
+      ],
+      icon: <FaTrain />,
+      iconColor: '#34495e'
     },
     {
       time: '15:00',

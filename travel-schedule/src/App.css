@@ -243,6 +243,25 @@ body {
   padding: 3px 8px;
   border-radius: 4px;
   font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.line-badges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.line-badge {
+  display: inline-block;
+  padding: 2px 0; /* Removed horizontal padding to fit fixed width */
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.75rem;
+  width: 32px; /* Fixed width for vertical alignment of following text */
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  flex-shrink: 0;
 }
 
 .event-title {
@@ -283,4 +302,23 @@ body {
 .address-link:hover {
   text-decoration: underline;
   color: #2980b9;
+}
+
+.event-lines-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.line-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.line-description-text {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
 }

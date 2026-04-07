@@ -40,6 +40,7 @@ const EventCard = ({ event, id }: { event: any, id?: string }) => (
         {event.time && <span className="event-time" style={{ color: event.iconColor }}>{event.time}</span>}
         <span className="event-title">{event.title}</span>
       </div>
+      
       {event.address && (
         <div className="event-address">
           <FaMapMarkerAlt className="address-icon" />
@@ -53,6 +54,23 @@ const EventCard = ({ event, id }: { event: any, id?: string }) => (
           </a>
         </div>
       )}
+
+      {event.lines && (
+        <div className="event-lines-list">
+          {event.lines.map((line: any, lIdx: number) => (
+            <div key={lIdx} className="line-item">
+              <span 
+                className="line-badge" 
+                style={{ backgroundColor: line.color, color: line.textColor || '#fff' }}
+              >
+                {line.name}
+              </span>
+              <span className="line-description-text">{line.description}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {event.details && <p className="event-details">{event.details}</p>}
     </div>
   </div>
