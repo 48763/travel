@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaUserFriends, FaCalendarAlt } from 'react-icons/fa';
 
 export const day0602 = {

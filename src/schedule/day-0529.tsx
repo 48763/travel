@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaUtensils, FaSuitcase, FaGamepad, FaHotel } from 'react-icons/fa';
 
 export const day0529 = {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaGamepad } from 'react-icons/fa';
 
 export const day0531 = {

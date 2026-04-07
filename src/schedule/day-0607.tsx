@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaPlaneDeparture, FaPlaneArrival } from 'react-icons/fa';
 
 export const day0607 = {

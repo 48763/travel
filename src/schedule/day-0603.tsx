@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaQuestionCircle } from 'react-icons/fa';
 
 export const day0603 = {

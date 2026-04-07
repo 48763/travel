@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { schedule } from './data.tsx';
 import './App.css';
 import { FaBars, FaChevronLeft, FaMapMarkerAlt } from 'react-icons/fa';
