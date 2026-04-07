@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -208,6 +212,7 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   scroll-margin-top: 2.5rem; /* Space above when clicking anchor link */
+  text-align: left;
 }
 
 .event-card:hover {
@@ -248,9 +253,34 @@ body {
 
 /* Card Body (Details) */
 .event-details {
-  margin: 0;
+  margin: 6px 0 0 0;
   color: #6c7a89;
   font-size: 0.95rem;
   white-space: pre-wrap;
   line-height: 1.5;
+}
+
+.event-address {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #3498db;
+}
+
+.address-icon {
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.address-link {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.2s;
+  text-align: left;
+}
+
+.address-link:hover {
+  text-decoration: underline;
+  color: #2980b9;
 }

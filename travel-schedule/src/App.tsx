@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { schedule } from './data.tsx';
 import './App.css';
-import { FaBars, FaChevronLeft } from 'react-icons/fa';
+import { FaBars, FaChevronLeft, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Sidebar = ({ schedule, isOpen, toggleSidebar }: { schedule: any[], isOpen: boolean, toggleSidebar: () => void }) => (
   <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
@@ -40,6 +40,19 @@ const EventCard = ({ event, id }: { event: any, id?: string }) => (
         {event.time && <span className="event-time" style={{ color: event.iconColor }}>{event.time}</span>}
         <span className="event-title">{event.title}</span>
       </div>
+      {event.address && (
+        <div className="event-address">
+          <FaMapMarkerAlt className="address-icon" />
+          <a 
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="address-link"
+          >
+            {event.address}
+          </a>
+        </div>
+      )}
       {event.details && <p className="event-details">{event.details}</p>}
     </div>
   </div>

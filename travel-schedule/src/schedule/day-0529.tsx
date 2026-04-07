@@ -22,6 +22,7 @@ export const day0529 = {
       time: '10:00',
       title: 'Pokémon GO Fest 公園遊記',
       details: '本次旅程的主要活動內容。',
+      address: '東京都千代田区日比谷公園',
       icon: <FaGamepad />,
       iconColor: '#2ecc71'
     },
@@ -29,6 +30,7 @@ export const day0529 = {
       time: '22:00',
       title: '入住 濱松町京王布萊索飯店',
       details: 'Keio Presso Inn Hamamatsucho',
+      address: '東京都港区浜松町1丁目18-11',
       icon: <FaHotel />,
       iconColor: '#8e44ad'
     }
