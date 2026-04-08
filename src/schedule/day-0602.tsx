@@ -1,7 +1,7 @@
 
 import { FaUserFriends, FaCalendarAlt } from 'react-icons/fa';
 
-export const day0602 = {
+export default {
   date: '06/02 (二)',
   events: [
     {

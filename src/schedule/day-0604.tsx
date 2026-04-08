@@ -1,7 +1,7 @@
 
 import { FaQuestionCircle } from 'react-icons/fa';
 
-export const day0604 = {
+export default {
   date: '06/04 (四)',
   events: [
     {

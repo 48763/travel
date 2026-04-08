@@ -1,7 +1,7 @@
 
 import { FaGamepad } from 'react-icons/fa';
 
-export const day0531 = {
+export default {
   date: '05/31 (日)',
   events: [
     {

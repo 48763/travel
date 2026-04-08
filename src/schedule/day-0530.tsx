@@ -1,7 +1,7 @@
 
 import { FaCalendarAlt } from 'react-icons/fa';
 
-export const day0530 = {
+export default {
   date: '05/30 (六)',
   events: [
     {

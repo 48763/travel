@@ -1,7 +1,7 @@
 
 import { FaSuitcase, FaWalking } from 'react-icons/fa';
 
-export const day0606 = {
+export default {
   date: '06/06 (六)',
   events: [
     {

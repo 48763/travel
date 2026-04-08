@@ -1,7 +1,7 @@
 
 import { FaUtensils, FaSuitcase, FaGamepad, FaHotel } from 'react-icons/fa';
 
-export const day0529 = {
+export default {
   date: '05/29 (五)',
   events: [
     {
