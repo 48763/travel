@@ -9,8 +9,9 @@ import { day0604 } from './schedule/day-0604';
 import { day0605 } from './schedule/day-0605';
 import { day0606 } from './schedule/day-0606';
 import { day0607 } from './schedule/day-0607';
+import type { Day } from './types';
 
-export const schedule = [
+export const schedule: Day[] = [
   day0528,
   day0529,
   day0530,

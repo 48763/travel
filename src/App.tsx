@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { schedule } from './data.tsx';
 import './App.css';
 import { FaBars, FaChevronLeft, FaMapMarkerAlt } from 'react-icons/fa';
+import type { Day, Event } from './types';
 
-const Sidebar = ({ schedule, isOpen, toggleSidebar }: { schedule: any[], isOpen: boolean, toggleSidebar: () => void }) => (
+const Sidebar = ({ schedule, isOpen, toggleSidebar }: { schedule: Day[], isOpen: boolean, toggleSidebar: () => void }) => (
   <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
     <div className="sidebar-header">
       <h2 className="sidebar-title">行程目錄</h2>
@@ -16,7 +17,7 @@ const Sidebar = ({ schedule, isOpen, toggleSidebar }: { schedule: any[], isOpen:
         <li key={idx} className="sidebar-day">
           <a href={`#day-${idx}`} className="sidebar-day-link">{day.date}</a>
           <ul className="sidebar-events">
-            {day.events.map((ev: any, evIdx: number) => (
+            {day.events.map((ev, evIdx) => (
               <li key={evIdx} className="sidebar-event">
                 <a href={`#event-${idx}-${evIdx}`} className="sidebar-event-link">
                   {ev.title}
@@ -30,7 +31,7 @@ const Sidebar = ({ schedule, isOpen, toggleSidebar }: { schedule: any[], isOpen:
   </div>
 );
 
-const EventCard = ({ event, id }: { event: any, id?: string }) => (
+const EventCard = ({ event, id }: { event: Event, id?: string }) => (
   <div className="event-card" id={id}>
     <div className="event-icon" style={{ color: event.iconColor }}>
       {event.icon}
@@ -57,7 +58,7 @@ const EventCard = ({ event, id }: { event: any, id?: string }) => (
 
       {event.lines && (
         <div className="event-lines-list">
-          {event.lines.map((line: any, lIdx: number) => (
+          {event.lines.map((line, lIdx) => (
             <div key={lIdx} className="line-item">
               <span 
                 className="line-badge" 
@@ -76,11 +77,11 @@ const EventCard = ({ event, id }: { event: any, id?: string }) => (
   </div>
 );
 
-const DayEntry = ({ day, index }: { day: any, index: number }) => (
+const DayEntry = ({ day, index }: { day: Day, index: number }) => (
   <div className="day-entry" id={`day-${index}`}>
     <div className="date-column">{day.date}</div>
     <div className="events-column">
-      {day.events.map((ev: any, idx: number) => (
+      {day.events.map((ev, idx) => (
         <EventCard key={idx} event={ev} id={`event-${index}-${idx}`} />
       ))}
     </div>
