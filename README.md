@@ -2,14 +2,17 @@
 
 這是一個為個人旅遊設計的互動式行程網頁。具有側邊導覽目錄、行程小卡與錨點跳轉，桌機與手機皆有對應的版面，並會在當天自動定位、標示「今日」並提供整日 Google Maps 路線。
 
+🌐 **Live demo**：<https://48763.github.io/travel/>
+
 ## 🚀 快速開始
 
 ```bash
-npm install   # 第一次執行需要
-npm run dev
+npm install        # 第一次執行需要
+npm run dev        # 開發模式 (預設 http://localhost:5173/)
+npm run build      # 產出靜態檔到 dist/
+npm run preview    # 用 vite preview 在本機預覽 production build
+npm run lint       # ESLint
 ```
-
-執行後請在瀏覽器打開：`http://localhost:5173/`
 
 ## 🛠 如何調整行程內容？
 
@@ -38,7 +41,7 @@ export default day;
 ```
 
 - 型別 `Day` / `Event` / `Line` / `EventType` 都定義在 `src/types.ts`，欄位寫錯或 type 拼錯會在 typecheck 抓到。
-- 每個 event 的 `type` 會對到 `src/eventStyle.tsx` 裡的 `EVENT_STYLE`，由它統一決定圖示與顏色（`planeDeparture` / `train` / `hotel` / `food` / `shopping` / `activity` / `walking` / `luggage` / `social` / `schedule` / `unknown`）。
+- 每個 event 的 `type` 會對到 `src/eventStyle.tsx` 裡的 `EVENT_STYLE`，由它統一決定圖示與顏色。目前支援：`planeDeparture` / `planeArrival` / `train` / `schedule` / `hotel` / `food` / `shopping` / `activity` / `walking` / `luggage` / `social` / `unknown`。
 - 想加新類型或換圖示／顏色，編輯 `eventStyle.tsx` 即可，所有 event 一次套用。
 
 ### 加一個新的 event 類型
