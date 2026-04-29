@@ -1,7 +1,8 @@
 
 import { FaPlaneDeparture, FaPlaneArrival } from 'react-icons/fa';
+import type { Day } from '../types';
 
-export default {
+const day: Day = {
   date: '06/07 (日)',
   events: [
     {
@@ -22,3 +23,5 @@ export default {
     }
   ]
 };
+
+export default day;

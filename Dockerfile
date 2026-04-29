@@ -5,7 +5,7 @@ WORKDIR /app
 
 # 先複製相依性檔案，加速 Docker layer 快取
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 # 複製其餘程式碼並進行編譯
 COPY . .
