@@ -4,11 +4,11 @@ import './App.css';
 import { FaBars, FaChevronLeft, FaMapMarkerAlt } from 'react-icons/fa';
 import type { Day, Event } from './types';
 
-const Sidebar = ({ schedule, isOpen, toggleSidebar }: { schedule: Day[], isOpen: boolean, toggleSidebar: () => void }) => (
+const Sidebar = ({ schedule, isOpen, closeSidebar }: { schedule: Day[], isOpen: boolean, closeSidebar: () => void }) => (
   <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
     <div className="sidebar-header">
       <h2 className="sidebar-title">行程目錄</h2>
-      <button className="toggle-btn" onClick={toggleSidebar}>
+      <button className="toggle-btn" onClick={closeSidebar} aria-label="關閉側邊欄">
         <FaChevronLeft />
       </button>
     </div>
@@ -94,11 +94,11 @@ function App() {
   return (
     <div className="app-layout">
       {!isSidebarOpen && (
-        <button className="open-sidebar-btn" onClick={() => setIsSidebarOpen(true)}>
+        <button className="open-sidebar-btn" onClick={() => setIsSidebarOpen(true)} aria-label="開啟側邊欄">
           <FaBars />
         </button>
       )}
-      <Sidebar schedule={schedule} isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(false)} />
+      <Sidebar schedule={schedule} isOpen={isSidebarOpen} closeSidebar={() => setIsSidebarOpen(false)} />
       <div className="main-content-wrapper">
         <div className="app-container">
           <h1 className="main-title">日本旅遊時程</h1>

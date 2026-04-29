@@ -5,7 +5,4 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: './', // 加入這一行，確保在 GitHub Pages 上的路徑正確
   plugins: [react()],
-  optimizeDeps: {
-    include: ['react-vertical-timeline-component']
-  }
 })
