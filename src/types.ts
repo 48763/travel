@@ -1,4 +1,16 @@
-import type { ReactNode } from 'react';
+export type EventType =
+  | 'planeDeparture'
+  | 'planeArrival'
+  | 'train'
+  | 'schedule'
+  | 'hotel'
+  | 'food'
+  | 'shopping'
+  | 'activity'
+  | 'walking'
+  | 'luggage'
+  | 'social'
+  | 'unknown';
 
 export interface Line {
   name: string;
@@ -8,12 +20,11 @@ export interface Line {
 }
 
 export interface Event {
+  type: EventType;
   time?: string;
   title: string;
   details?: string;
   address?: string;
-  icon: ReactNode;
-  iconColor: string;
   lines?: Line[];
 }
 

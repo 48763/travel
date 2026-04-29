@@ -1,17 +1,13 @@
-
-import { FaCalendarAlt } from 'react-icons/fa';
 import type { Day } from '../types';
-import { ICON_COLORS } from '../colors';
 
 const day: Day = {
-  date: '06/01 (一)',
+  date: '2026-06-01',
   events: [
     {
       time: '全天',
       title: '彈性行程日',
       details: '本日為彈性時間，可自由安排。',
-      icon: <FaCalendarAlt />,
-      iconColor: ICON_COLORS.schedule
+      type: 'schedule'
     }
   ]
 };
