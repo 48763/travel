@@ -1,6 +1,7 @@
 
 import { FaPlaneDeparture, FaPlaneArrival, FaTrain, FaHotel, FaUtensils, FaShoppingBag } from 'react-icons/fa';
 import type { Day } from '../types';
+import { ICON_COLORS } from '../colors';
 
 const day: Day = {
   date: '05/28 (四)',
@@ -11,7 +12,7 @@ const day: Day = {
       details: '長榮航空 BR192\n台北松山 (TSA)',
       address: '台北松山機場 (TSA)',
       icon: <FaPlaneDeparture />,
-      iconColor: '#094a9d'
+      iconColor: ICON_COLORS.planeDeparture
     },
     {
       time: '11:30',
@@ -19,7 +20,7 @@ const day: Day = {
       details: '東京羽田 (HND)',
       address: '羽田機場 (HND)',
       icon: <FaPlaneArrival />,
-      iconColor: '#2a8deb'
+      iconColor: ICON_COLORS.planeArrival
     },
     {
       time: '13:00',
@@ -37,7 +38,7 @@ const day: Day = {
         }
       ],
       icon: <FaTrain />,
-      iconColor: '#34495e'
+      iconColor: ICON_COLORS.train
     },
     {
       time: '15:00',
@@ -45,14 +46,14 @@ const day: Day = {
       details: 'Villa Fontaine Grand Tokyo Ariake',
       address: '東京都江東区有明2丁目1-5',
       icon: <FaHotel />,
-      iconColor: '#8e44ad'
+      iconColor: ICON_COLORS.hotel
     },
     {
       time: '17:00',
       title: '晚餐時間',
       details: '最晚點餐時間 21:30\n最晚用餐時間 22:00',
       icon: <FaUtensils />,
-      iconColor: '#e67e22'
+      iconColor: ICON_COLORS.food
     },
     {
       time: '19:30',
@@ -60,7 +61,7 @@ const day: Day = {
       details: '步行約 5 分鐘',
       address: '東京都江東区有明2丁目1-8',
       icon: <FaShoppingBag />,
-      iconColor: '#27ae60'
+      iconColor: ICON_COLORS.shopping
     }
   ]
 };

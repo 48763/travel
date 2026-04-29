@@ -1,6 +1,7 @@
 
 import { FaPlaneDeparture, FaPlaneArrival } from 'react-icons/fa';
 import type { Day } from '../types';
+import { ICON_COLORS } from '../colors';
 
 const day: Day = {
   date: '06/07 (日)',
@@ -11,7 +12,7 @@ const day: Day = {
       details: '全日空 NH851\n東京羽田 (HND)',
       address: '羽田機場 (HND)',
       icon: <FaPlaneDeparture />,
-      iconColor: '#094a9d'
+      iconColor: ICON_COLORS.planeDeparture
     },
     {
       time: '12:05',
@@ -19,7 +20,7 @@ const day: Day = {
       details: '台北松山 (TSA)',
       address: '台北松山機場 (TSA)',
       icon: <FaPlaneArrival />,
-      iconColor: '#2a8deb'
+      iconColor: ICON_COLORS.planeArrival
     }
   ]
 };
