@@ -11,4 +11,3 @@ pnpm-debug.log*
 Dockerfile
 .dockerignore
 README.md
-start.sh
