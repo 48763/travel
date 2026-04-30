@@ -1,5 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react';
-import { trips, pickDefaultTrip } from './trips';
+import { trips, tripsByCategory, labelOfCategory, pickDefaultTrip } from './trips';
 import type { TripDefinition } from './trip';
 import './App.css';
 import {
@@ -82,8 +82,12 @@ const Sidebar = ({
         onChange={(e) => onTripChange(e.target.value)}
         aria-label="選擇行程"
       >
-        {trips.map((t) => (
-          <option key={t.id} value={t.id}>{t.title}</option>
+        {tripsByCategory.map(([category, entries]) => (
+          <optgroup key={category} label={labelOfCategory(category)}>
+            {entries.map(({ trip: t }) => (
+              <option key={t.id} value={t.id}>{t.title}</option>
+            ))}
+          </optgroup>
         ))}
       </select>
     )}
