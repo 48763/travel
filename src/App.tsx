@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react';
-import { schedule } from './schedule';
-import { TRIP } from './trip.config';
+import { trips, pickDefaultTrip } from './trips';
+import type { TripDefinition } from './trip';
 import './App.css';
 import {
   FaBars, FaChevronLeft, FaMapMarkerAlt,
@@ -43,15 +43,31 @@ function dayMapUrl(events: Event[]): string | null {
   return `https://www.google.com/maps/dir/${stops.join('/')}`;
 }
 
+function readTripIdFromHash(): string {
+  return window.location.hash.replace(/^#\/?/, '');
+}
+
+function resolveTrip(today: string): TripDefinition {
+  const id = readTripIdFromHash();
+  if (id) {
+    const found = trips.find((t) => t.id === id);
+    if (found) return found;
+  }
+  return pickDefaultTrip(today);
+}
+
 type SidebarProps = {
-  schedule: Day[];
+  trip: TripDefinition;
   isOpen: boolean;
   closeSidebar: () => void;
   closeOnMobile: () => void;
   todayIndex: number | null;
+  onTripChange: (id: string) => void;
 };
 
-const Sidebar = ({ schedule, isOpen, closeSidebar, closeOnMobile, todayIndex }: SidebarProps) => (
+const Sidebar = ({
+  trip, isOpen, closeSidebar, closeOnMobile, todayIndex, onTripChange,
+}: SidebarProps) => (
   <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
     <div className="sidebar-header">
       <h2 className="sidebar-title">行程目錄</h2>
@@ -59,9 +75,21 @@ const Sidebar = ({ schedule, isOpen, closeSidebar, closeOnMobile, todayIndex }: 
         <FaChevronLeft />
       </button>
     </div>
+    {trips.length > 1 && (
+      <select
+        className="trip-selector"
+        value={trip.id}
+        onChange={(e) => onTripChange(e.target.value)}
+        aria-label="選擇行程"
+      >
+        {trips.map((t) => (
+          <option key={t.id} value={t.id}>{t.title}</option>
+        ))}
+      </select>
+    )}
     <nav>
       <ul className="sidebar-nav">
-        {schedule.map((day, idx) => {
+        {trip.schedule.map((day, idx) => {
           const isToday = idx === todayIndex;
           return (
             <li
@@ -205,25 +233,32 @@ const ScrollControls = () => {
 };
 
 function App() {
+  const today = todayISO();
+  const [trip, setTrip] = useState<TripDefinition>(() => resolveTrip(today));
   const [isSidebarOpen, setIsSidebarOpen] = useState(
     () => !window.matchMedia(MOBILE_QUERY).matches
   );
 
-  const today = todayISO();
-  const todayIndex = (() => {
-    const idx = schedule.findIndex(d => d.date === today);
-    return idx === -1 ? null : idx;
-  })();
+  useEffect(() => {
+    const handler = () => setTrip(resolveTrip(today));
+    window.addEventListener('hashchange', handler);
+    return () => window.removeEventListener('hashchange', handler);
+  }, [today]);
 
   useEffect(() => {
-    document.title = TRIP.title;
-  }, []);
+    document.title = trip.title;
+  }, [trip.title]);
+
+  const todayIndex = (() => {
+    const idx = trip.schedule.findIndex((d) => d.date === today);
+    return idx === -1 ? null : idx;
+  })();
 
   useEffect(() => {
     if (todayIndex === null) return;
     const el = document.getElementById(`day-${todayIndex}`);
     if (el) el.scrollIntoView({ block: 'start' });
-  }, [todayIndex]);
+  }, [todayIndex, trip.id]);
 
   const closeSidebar = () => setIsSidebarOpen(false);
   const closeOnMobile = () => {
@@ -232,7 +267,11 @@ function App() {
     }
   };
 
-  const accentStyle = { '--accent': TRIP.accent } as CSSProperties;
+  const onTripChange = (id: string) => {
+    window.location.hash = `#/${id}`;
+  };
+
+  const accentStyle = { '--accent': trip.accent } as CSSProperties;
 
   return (
     <div className="app-layout" style={accentStyle}>
@@ -253,17 +292,18 @@ function App() {
         />
       )}
       <Sidebar
-        schedule={schedule}
+        trip={trip}
         isOpen={isSidebarOpen}
         closeSidebar={closeSidebar}
         closeOnMobile={closeOnMobile}
         todayIndex={todayIndex}
+        onTripChange={onTripChange}
       />
       <main className="main-content-wrapper">
         <div className="app-container">
-          <h1 className="main-title">{TRIP.title}</h1>
+          <h1 className="main-title">{trip.title}</h1>
           <div className="schedule-list">
-            {schedule.map((day, index) => (
+            {trip.schedule.map((day, index) => (
               <DayEntry
                 key={day.date}
                 day={day}

@@ -1,7 +1,14 @@
-import type { Day } from '../types';
-import { d } from '../trip.config';
+import { defineTrip } from '../../trip';
 
-export const schedule: Day[] = [
+export default defineTrip(
+  {
+    id: 'japan-2026',
+    title: '日本旅遊時程',
+    year: 2026,
+    startMonth: 5,
+    accent: '#e67e22',
+  },
+  (d) => [
   {
     date: '2026-04-29',
     events: [
@@ -276,4 +283,5 @@ export const schedule: Day[] = [
       }
     ]
   },
-];
+  ],
+);
