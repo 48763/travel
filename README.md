@@ -50,17 +50,20 @@ export default defineTrip(
 );
 ```
 
-### 一年多趟
-
-同一年份資料夾裡放多份檔案即可，例如：
+### 目錄分層
 
 ```
-src/trips/2026/
-  japan.ts          → id: 'japan-2026',         title: '日本 2026 春'
-  japan-autumn.ts   → id: 'japan-2026-autumn',  title: '日本 2026 秋'
+src/trips/
+  index.ts                    ← 自動掃 ./*/*.ts，不需手動註冊
+  2026/                       ← 真實行程依年份分層
+    japan.ts                  →  id: 'japan-2026'
+  2027/                       ← 之後新年份就再開一個資料夾
+    japan-spring.ts
+  samples/                    ← 範例獨立一層，不混進真實年份
+    japan-spring.ts           →  id: 'japan-2026-spring' (範例)
 ```
 
-`id` 跟 `title` 唯一即可，命名隨意。Sidebar 下拉會顯示所有趟，依首日日期升冪排序。
+一年多趟：同一年份資料夾裡放多份檔案即可，例如 `2026/japan-may.ts` 跟 `2026/japan-october.ts`。`id` 跟 `title` 唯一即可，命名隨意。Sidebar 下拉會顯示所有趟，依首日日期升冪排序。
 
 ### 跨年行程
 
@@ -101,8 +104,9 @@ src/trips/2026/
 - `src/App.tsx` — 主元件：Sidebar / DayEntry / EventCard / ScrollControls，含「今日」自動定位與 trip 切換邏輯。
 - `src/App.css` — 視覺樣式與 RWD（≤ 768px overlay sidebar、日期 sticky 在頂部）。`--accent` CSS 變數從 `App.tsx` 注入，由 trip.accent 控制。
 - `src/trip.ts` — `TripDefinition` / `TripMeta` 型別 + `defineTrip(meta, scheduleFn)` 工廠（負責 binding `d()` helper）。
-- `src/trips/<year>/<name>.ts` — 每趟行程一份檔，`export default defineTrip(...)`。
-- `src/trips/index.ts` — auto-glob 收集所有 trip + `pickDefaultTrip(today)`。
+- `src/trips/<year>/<name>.ts` — 真實行程依年份分層；每趟一個檔，`export default defineTrip(...)`。
+- `src/trips/samples/<name>.ts` — 範例行程，獨立一層不混進真實年份（一樣會被 glob 收進 dropdown，但不影響「最新一趟」的排序判斷邏輯本身——只看 `schedule[0].date`）。
+- `src/trips/index.ts` — auto-glob (`./*/*.ts`) 收集所有 trip + `pickDefaultTrip(today)`。
 - `src/types.ts` — `Day` / `Event` / `Line` / `EventType` 型別。
 - `src/eventStyle.tsx` — `EventType` 到 icon + color 的集中對應表。
 
