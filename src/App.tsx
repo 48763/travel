@@ -1,9 +1,9 @@
-import { useEffect, useState, type CSSProperties } from 'react';
-import { trips, tripsByCategory, labelOfCategory, pickDefaultTrip } from './trips';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { trips, tripEntries, tripsByCategory, labelOfCategory, pickDefaultTrip } from './trips';
 import type { TripDefinition } from './trip';
 import './App.css';
 import {
-  FaBars, FaChevronLeft, FaMapMarkerAlt,
+  FaBars, FaChevronLeft, FaChevronDown, FaMapMarkerAlt,
   FaArrowUp, FaArrowDown, FaRoute,
 } from 'react-icons/fa';
 import type { Day, Event } from './types';
@@ -56,6 +56,104 @@ function resolveTrip(today: string): TripDefinition {
   return pickDefaultTrip(today);
 }
 
+type TripSelectorProps = {
+  trip: TripDefinition;
+  onTripChange: (id: string) => void;
+};
+
+const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onClickOutside = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setIsOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen]);
+
+  const handleTrigger = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      return;
+    }
+    const cat = tripEntries.find((e) => e.trip.id === trip.id)?.category ?? null;
+    setActiveCategory(cat);
+    setIsOpen(true);
+  };
+
+  const handleSelect = (id: string) => {
+    onTripChange(id);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="trip-selector" ref={ref}>
+      <button
+        type="button"
+        className="trip-selector__trigger"
+        onClick={handleTrigger}
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+      >
+        <span className="trip-selector__current">{trip.title}</span>
+        <FaChevronDown
+          className={`trip-selector__caret ${isOpen ? 'is-open' : ''}`}
+        />
+      </button>
+      {isOpen && (
+        <div className="trip-selector__menu" role="menu">
+          {tripsByCategory.map(([category, entries]) => {
+            const isActive = activeCategory === category;
+            return (
+              <div key={category} className="trip-selector__group">
+                <button
+                  type="button"
+                  className={`trip-selector__category ${isActive ? 'is-active' : ''}`}
+                  onMouseEnter={() => setActiveCategory(category)}
+                  onClick={() => setActiveCategory(isActive ? null : category)}
+                  aria-expanded={isActive}
+                >
+                  <span>{labelOfCategory(category)}</span>
+                  <FaChevronDown
+                    className={`trip-selector__caret trip-selector__caret--small ${isActive ? 'is-open' : ''}`}
+                  />
+                </button>
+                {isActive && (
+                  <ul className="trip-selector__submenu">
+                    {entries.map(({ trip: t }) => (
+                      <li key={t.id}>
+                        <button
+                          type="button"
+                          className={`trip-selector__option ${t.id === trip.id ? 'is-current' : ''}`}
+                          onClick={() => handleSelect(t.id)}
+                          role="menuitem"
+                        >
+                          {t.title}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
 type SidebarProps = {
   trip: TripDefinition;
   isOpen: boolean;
@@ -76,20 +174,7 @@ const Sidebar = ({
       </button>
     </div>
     {trips.length > 1 && (
-      <select
-        className="trip-selector"
-        value={trip.id}
-        onChange={(e) => onTripChange(e.target.value)}
-        aria-label="選擇行程"
-      >
-        {tripsByCategory.map(([category, entries]) => (
-          <optgroup key={category} label={labelOfCategory(category)}>
-            {entries.map(({ trip: t }) => (
-              <option key={t.id} value={t.id}>{t.title}</option>
-            ))}
-          </optgroup>
-        ))}
-      </select>
+      <TripSelector trip={trip} onTripChange={onTripChange} />
     )}
     <nav>
       <ul className="sidebar-nav">

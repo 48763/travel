@@ -99,8 +99,12 @@ body {
 }
 
 .trip-selector {
-  width: 100%;
+  position: relative;
   margin-bottom: 1.2rem;
+}
+
+.trip-selector__trigger {
+  width: 100%;
   padding: 8px 10px;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
@@ -109,11 +113,112 @@ body {
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
 }
 
-.trip-selector:focus {
+.trip-selector__trigger:hover {
+  background: #f4f6f8;
+}
+
+.trip-selector__trigger:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
+}
+
+.trip-selector__current {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trip-selector__caret {
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.trip-selector__caret--small {
+  font-size: 0.65rem;
+}
+
+.trip-selector__caret.is-open {
+  transform: rotate(180deg);
+}
+
+.trip-selector__menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 4px;
+  z-index: 200;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.trip-selector__group {
+  margin-bottom: 2px;
+}
+
+.trip-selector__category {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: #34495e;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  gap: 8px;
+}
+
+.trip-selector__category:hover,
+.trip-selector__category.is-active {
+  background: #f4f6f8;
+}
+
+.trip-selector__submenu {
+  list-style: none;
+  margin: 4px 0 4px 12px;
+  padding: 0;
+  border-left: 2px solid var(--accent);
+}
+
+.trip-selector__option {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  border: none;
+  background: none;
+  color: #2c3e50;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.trip-selector__option:hover {
+  background: #f4f6f8;
+}
+
+.trip-selector__option.is-current {
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .sidebar-nav, .sidebar-events {
