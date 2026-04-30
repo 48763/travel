@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { schedule } from './data.tsx';
+import { useEffect, useState, type CSSProperties } from 'react';
+import { schedule } from './schedule';
+import { TRIP } from './trip.config';
 import './App.css';
 import {
   FaBars, FaChevronLeft, FaMapMarkerAlt,
@@ -135,7 +136,11 @@ const EventCard = ({ event, id }: { event: Event, id?: string }) => {
           </div>
         )}
 
-        {event.details && <p className="event-details">{event.details}</p>}
+        {event.details && (
+          <p className="event-details">
+            {Array.isArray(event.details) ? event.details.join('\n') : event.details}
+          </p>
+        )}
       </div>
     </article>
   );
@@ -211,6 +216,10 @@ function App() {
   })();
 
   useEffect(() => {
+    document.title = TRIP.title;
+  }, []);
+
+  useEffect(() => {
     if (todayIndex === null) return;
     const el = document.getElementById(`day-${todayIndex}`);
     if (el) el.scrollIntoView({ block: 'start' });
@@ -223,8 +232,10 @@ function App() {
     }
   };
 
+  const accentStyle = { '--accent': TRIP.accent } as CSSProperties;
+
   return (
-    <div className="app-layout">
+    <div className="app-layout" style={accentStyle}>
       {!isSidebarOpen && (
         <button
           className="open-sidebar-btn"
@@ -250,7 +261,7 @@ function App() {
       />
       <main className="main-content-wrapper">
         <div className="app-container">
-          <h1 className="main-title">日本旅遊時程</h1>
+          <h1 className="main-title">{TRIP.title}</h1>
           <div className="schedule-list">
             {schedule.map((day, index) => (
               <DayEntry

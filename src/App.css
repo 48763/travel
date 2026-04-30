@@ -14,6 +14,7 @@ body {
 
 /* App Layout with Sidebar */
 .app-layout {
+  --accent: var(--accent);
   display: flex;
   min-height: 100vh;
   position: relative;
@@ -202,7 +203,7 @@ body {
   display: inline-block;
   margin-top: 6px;
   padding: 2px 10px;
-  background: #e67e22;
+  background: var(--accent);
   color: #fff;
   font-size: 0.7rem;
   font-weight: bold;
@@ -234,8 +235,8 @@ body {
 }
 
 .day-entry--today {
-  background: linear-gradient(to right, rgba(230, 126, 34, 0.08), transparent 60%);
-  border-left: 4px solid #e67e22;
+  background: linear-gradient(to right, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%);
+  border-left: 4px solid var(--accent);
   padding-left: 10px;
   margin-left: -14px;
   border-radius: 4px 0 0 4px;
@@ -245,7 +246,7 @@ body {
   display: inline-block;
   margin-right: 6px;
   padding: 1px 7px;
-  background: #e67e22;
+  background: var(--accent);
   color: #fff;
   font-size: 0.65rem;
   font-weight: bold;
@@ -254,7 +255,7 @@ body {
 }
 
 .sidebar-day--today .sidebar-day-link {
-  color: #e67e22;
+  color: var(--accent);
 }
 
 .events-column {

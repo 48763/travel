@@ -23,7 +23,7 @@ export interface Event {
   type: EventType;
   time?: string;
   title: string;
-  details?: string;
+  details?: string | string[];
   address?: string;
   lines?: Line[];
 }
