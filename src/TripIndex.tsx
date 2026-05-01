@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { tripsByCategory, labelOfCategory } from './trips';
 import type { TripDefinition } from './trip';
+import { TripMap } from './TripMap';
 
 export type TripStatus = 'past' | 'ongoing' | 'upcoming' | 'planned' | 'sample';
 
@@ -95,6 +96,8 @@ export const TripIndex = ({ today, onSelect }: TripIndexProps) => {
         <h1 className="trip-index__title">歷年旅行</h1>
         <p className="trip-index__subtitle">{totalTrips} 趟旅行</p>
       </header>
+
+      <TripMap onSelect={onSelect} />
 
       {tripsByCategory.map(([category, entries]) => (
         <section key={category} className="trip-index__section">
