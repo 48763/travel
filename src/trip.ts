@@ -6,6 +6,7 @@ export interface TripMeta {
   year: number;
   startMonth: number;
   accent: string;
+  location?: { lat: number; lng: number; label?: string };
 }
 
 export interface TripDefinition extends TripMeta {

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { trips, tripEntries, tripsByCategory, labelOfCategory, pickDefaultTrip } from './trips';
+import { trips, tripEntries, tripsByCategory, labelOfCategory } from './trips';
 import type { TripDefinition } from './trip';
+import { TripIndex } from './TripIndex';
 import './App.css';
 import {
   FaBars, FaChevronLeft, FaChevronDown, FaMapMarkerAlt,
-  FaArrowUp, FaArrowDown, FaRoute,
+  FaArrowUp, FaArrowDown, FaRoute, FaArrowLeft,
 } from 'react-icons/fa';
 import type { Day, Event } from './types';
 import { EVENT_STYLE } from './eventStyle';
@@ -47,13 +48,10 @@ function readTripIdFromHash(): string {
   return window.location.hash.replace(/^#\/?/, '');
 }
 
-function resolveTrip(today: string): TripDefinition {
+function resolveTrip(): TripDefinition | null {
   const id = readTripIdFromHash();
-  if (id) {
-    const found = trips.find((t) => t.id === id);
-    if (found) return found;
-  }
-  return pickDefaultTrip(today);
+  if (!id) return null;
+  return trips.find((t) => t.id === id) ?? null;
 }
 
 type TripSelectorProps = {
@@ -173,6 +171,10 @@ const Sidebar = ({
         <FaChevronLeft />
       </button>
     </div>
+    <a href="#/" className="sidebar-home-link" onClick={closeOnMobile}>
+      <FaArrowLeft />
+      <span>歷年旅行</span>
+    </a>
     {trips.length > 1 && (
       <TripSelector trip={trip} onTripChange={onTripChange} />
     )}
@@ -323,22 +325,23 @@ const ScrollControls = () => {
 
 function App() {
   const today = todayISO();
-  const [trip, setTrip] = useState<TripDefinition>(() => resolveTrip(today));
+  const [trip, setTrip] = useState<TripDefinition | null>(() => resolveTrip());
   const [isSidebarOpen, setIsSidebarOpen] = useState(
     () => !window.matchMedia(MOBILE_QUERY).matches
   );
 
   useEffect(() => {
-    const handler = () => setTrip(resolveTrip(today));
+    const handler = () => setTrip(resolveTrip());
     window.addEventListener('hashchange', handler);
     return () => window.removeEventListener('hashchange', handler);
-  }, [today]);
+  }, []);
 
   useEffect(() => {
-    document.title = trip.title;
-  }, [trip.title]);
+    document.title = trip ? trip.title : '歷年旅行';
+  }, [trip]);
 
   const todayIndex = (() => {
+    if (!trip) return null;
     const idx = trip.schedule.findIndex((d) => d.date === today);
     return idx === -1 ? null : idx;
   })();
@@ -347,7 +350,16 @@ function App() {
     if (todayIndex === null) return;
     const el = document.getElementById(`day-${todayIndex}`);
     if (el) el.scrollIntoView({ block: 'start' });
-  }, [todayIndex, trip.id]);
+  }, [todayIndex, trip?.id]);
+
+  if (!trip) {
+    return (
+      <TripIndex
+        today={today}
+        onSelect={(id) => { window.location.hash = `#/${id}`; }}
+      />
+    );
+  }
 
   const closeSidebar = () => setIsSidebarOpen(false);
   const closeOnMobile = () => {

@@ -7,6 +7,7 @@ export default defineTrip(
     year: 2026,
     startMonth: 5,
     accent: '#e67e22',
+    location: { lat: 35.6762, lng: 139.6503, label: '東京' },
   },
   (d) => [
   {

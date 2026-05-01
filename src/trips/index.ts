@@ -39,13 +39,3 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 export const labelOfCategory = (cat: string) => CATEGORY_LABELS[cat] ?? cat;
 
-export function pickDefaultTrip(today: string): TripDefinition {
-  const ongoing = trips.find((t) => {
-    if (t.schedule.length === 0) return false;
-    const first = t.schedule[0].date;
-    const last = t.schedule[t.schedule.length - 1].date;
-    return first <= today && today <= last;
-  });
-  if (ongoing) return ongoing;
-  return trips[trips.length - 1];
-}
