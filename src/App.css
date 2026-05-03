@@ -830,6 +830,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
   transition: background-color 0.2s, transform 0.2s;
 }
 

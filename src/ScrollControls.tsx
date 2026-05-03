@@ -1,9 +1,16 @@
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaHome } from 'react-icons/fa';
 
 export const ScrollControls = () => {
   const scrollTo = (top: number) => window.scrollTo({ top, behavior: 'smooth' });
   return (
     <div className="scroll-controls">
+      <a
+        href="#/"
+        className="scroll-btn"
+        aria-label="回到歷年旅行"
+      >
+        <FaHome />
+      </a>
       <button
         type="button"
         className="scroll-btn"

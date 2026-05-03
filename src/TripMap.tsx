@@ -30,6 +30,19 @@ const FitBounds = ({ items }: { items: TripDefinition[] }) => {
   return null;
 };
 
+const FlyToHovered = ({ items, hoveredId }: { items: TripDefinition[]; hoveredId: string | null }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (!hoveredId) return;
+    const target = items.find((t) => t.id === hoveredId);
+    if (!target?.location) return;
+    map.flyTo([target.location.lat, target.location.lng], map.getZoom(), {
+      duration: 0.4,
+    });
+  }, [map, items, hoveredId]);
+  return null;
+};
+
 type TripMapProps = {
   hoveredId: string | null;
   onHover: (id: string | null) => void;
@@ -63,6 +76,7 @@ export const TripMap = ({ hoveredId, onHover, onSelect }: TripMapProps) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <FitBounds items={located} />
+        <FlyToHovered items={located} hoveredId={hoveredId} />
         {located.map((t) => (
           <Marker
             key={t.id}
