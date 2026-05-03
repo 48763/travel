@@ -148,9 +148,9 @@ body {
 }
 
 .trip-selector__menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
+  position: fixed;
+  left: var(--menu-left, 0);
+  top: var(--menu-top, 0);
   display: flex;
   gap: 4px;
   z-index: 200;

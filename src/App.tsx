@@ -62,14 +62,36 @@ type TripSelectorProps = {
 const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [menuPos, setMenuPos] = useState({ left: 0, top: 0 });
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (window.matchMedia(MOBILE_QUERY).matches) return;
+    const update = () => {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      if (rect) setMenuPos({ left: rect.left, top: rect.bottom + 4 });
+    };
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update, true);
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update, true);
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
     const isMobile = () => window.matchMedia(MOBILE_QUERY).matches;
     const onClickOutside = (e: MouseEvent) => {
       if (isMobile()) return;
-      if (!ref.current?.contains(e.target as Node)) setIsOpen(false);
+      const target = e.target as Node;
+      if (ref.current?.contains(target)) return;
+      if (menuRef.current?.contains(target)) return;
+      setIsOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
@@ -120,6 +142,7 @@ const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
   return (
     <div className="trip-selector" ref={ref}>
       <button
+        ref={triggerRef}
         type="button"
         className="trip-selector__trigger"
         onClick={handleTrigger}
@@ -133,7 +156,15 @@ const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
       </button>
 
       {isOpen && (
-        <div className="trip-selector__menu" role="menu">
+        <div
+          ref={menuRef}
+          className="trip-selector__menu"
+          role="menu"
+          style={{
+            '--menu-left': `${menuPos.left}px`,
+            '--menu-top': `${menuPos.top}px`,
+          } as CSSProperties}
+        >
           <div className="trip-selector__panel trip-selector__panel--root">
             <div className="trip-selector__panel-header">
               <span className="trip-selector__panel-title">選擇行程</span>
