@@ -81,8 +81,10 @@ const TripCard = ({
               {dayCount(range.first, range.last)} 天
             </span>
           )}
-          {trip.location?.label && (
-            <span className="trip-card__location">📍 {trip.location.label}</span>
+          {trip.locations && trip.locations.some((l) => l.label) && (
+            <span className="trip-card__location">
+              📍 {trip.locations.map((l) => l.label).filter(Boolean).join(' → ')}
+            </span>
           )}
         </div>
       </div>

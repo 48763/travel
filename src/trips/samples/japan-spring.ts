@@ -7,7 +7,12 @@ export default defineTrip(
     year: 2026,
     startMonth: 3,
     accent: '#ec7180',
-    location: { lat: 35.0116, lng: 135.7681, label: '京都' },
+    locations: [
+      { lat: 34.4347, lng: 135.2440, label: '関西空港' },
+      { lat: 35.0116, lng: 135.7681, label: '京都' },
+      { lat: 35.0094, lng: 135.6772, label: '嵐山' },
+      { lat: 34.4347, lng: 135.2440, label: '関西空港' },
+    ],
   },
   (d) => [
     {

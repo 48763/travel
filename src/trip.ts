@@ -1,12 +1,18 @@
 import type { Day } from './types';
 
+export interface TripLocation {
+  lat: number;
+  lng: number;
+  label?: string;
+}
+
 export interface TripMeta {
   id: string;
   title: string;
   year: number;
   startMonth: number;
   accent: string;
-  location?: { lat: number; lng: number; label?: string };
+  locations?: TripLocation[];
 }
 
 export interface TripDefinition extends TripMeta {
