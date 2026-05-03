@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { tripsByCategory, labelOfCategory } from './trips';
 import type { TripDefinition } from './trip';
 import { TripMap } from './TripMap';
@@ -39,21 +39,28 @@ function dayCount(first: string, last: string): number {
   return Math.round((b - a) / 86400000) + 1;
 }
 
-const TripCard = ({
-  trip, status, onSelect,
-}: {
+type TripCardProps = {
   trip: TripDefinition;
   status: TripStatus;
+  isHighlighted: boolean;
   onSelect: () => void;
-}) => {
+  onHover: () => void;
+  onLeave: () => void;
+};
+
+const TripCard = ({
+  trip, status, isHighlighted, onSelect, onHover, onLeave,
+}: TripCardProps) => {
   const range = tripDateRange(trip);
   const accentStyle = { '--card-accent': trip.accent } as CSSProperties;
   return (
     <button
       type="button"
-      className={`trip-card trip-card--${status}`}
+      className={`trip-card trip-card--${status} ${isHighlighted ? 'is-highlighted' : ''}`}
       style={accentStyle}
       onClick={onSelect}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
     >
       <span className="trip-card__rail" aria-hidden="true" />
       <div className="trip-card__body">
@@ -89,6 +96,7 @@ type TripIndexProps = {
 };
 
 export const TripIndex = ({ today, onSelect }: TripIndexProps) => {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const totalTrips = tripsByCategory.reduce((n, [, list]) => n + list.length, 0);
   return (
     <div className="trip-index">
@@ -97,7 +105,11 @@ export const TripIndex = ({ today, onSelect }: TripIndexProps) => {
         <p className="trip-index__subtitle">{totalTrips} 趟旅行</p>
       </header>
 
-      <TripMap onSelect={onSelect} />
+      <TripMap
+        hoveredId={hoveredId}
+        onHover={setHoveredId}
+        onSelect={onSelect}
+      />
 
       {tripsByCategory.map(([category, entries]) => (
         <section key={category} className="trip-index__section">
@@ -108,7 +120,10 @@ export const TripIndex = ({ today, onSelect }: TripIndexProps) => {
                 key={trip.id}
                 trip={trip}
                 status={tripStatus(trip, category, today)}
+                isHighlighted={hoveredId === trip.id}
                 onSelect={() => onSelect(trip.id)}
+                onHover={() => setHoveredId(trip.id)}
+                onLeave={() => setHoveredId(null)}
               />
             ))}
           </div>

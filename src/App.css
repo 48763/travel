@@ -654,6 +654,12 @@ body {
   border: 2px solid #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.trip-pin.is-highlighted span {
+  transform: scale(1.45);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .trip-index__section {
@@ -692,15 +698,21 @@ body {
   font-family: inherit;
 }
 
-.trip-card:hover {
+.trip-card:hover,
+.trip-card.is-highlighted {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.trip-card.is-highlighted .trip-card__rail {
+  width: 6px;
 }
 
 .trip-card__rail {
   width: 4px;
   background: var(--card-accent);
   flex-shrink: 0;
+  transition: width 0.15s ease;
 }
 
 .trip-card__body {

@@ -265,7 +265,13 @@ const Sidebar = ({
       <span>歷年旅行</span>
     </a>
     {trips.length > 1 && (
-      <TripSelector trip={trip} onTripChange={onTripChange} />
+      <TripSelector
+        trip={trip}
+        onTripChange={(id) => {
+          onTripChange(id);
+          closeOnMobile();
+        }}
+      />
     )}
     <nav>
       <ul className="sidebar-nav">

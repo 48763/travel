@@ -1,13 +1,13 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { trips } from './trips';
 import type { TripDefinition } from './trip';
 
-const accentIcon = (color: string) =>
+const accentIcon = (color: string, highlighted: boolean) =>
   L.divIcon({
-    className: 'trip-pin',
+    className: `trip-pin ${highlighted ? 'is-highlighted' : ''}`,
     html: `<span style="background:${color}"></span>`,
     iconSize: [18, 18],
     iconAnchor: [9, 9],
@@ -31,12 +31,25 @@ const FitBounds = ({ items }: { items: TripDefinition[] }) => {
 };
 
 type TripMapProps = {
+  hoveredId: string | null;
+  onHover: (id: string | null) => void;
   onSelect: (id: string) => void;
 };
 
-export const TripMap = ({ onSelect }: TripMapProps) => {
+export const TripMap = ({ hoveredId, onHover, onSelect }: TripMapProps) => {
   const located = useMemo(() => trips.filter((t) => t.location), []);
+  const markerRefs = useRef<Record<string, L.Marker | null>>({});
+
+  useEffect(() => {
+    for (const [id, marker] of Object.entries(markerRefs.current)) {
+      if (!marker) continue;
+      if (id === hoveredId) marker.openPopup();
+      else marker.closePopup();
+    }
+  }, [hoveredId]);
+
   if (located.length === 0) return null;
+
   return (
     <div className="trip-map">
       <MapContainer
@@ -53,11 +66,16 @@ export const TripMap = ({ onSelect }: TripMapProps) => {
         {located.map((t) => (
           <Marker
             key={t.id}
+            ref={(m) => { markerRefs.current[t.id] = m; }}
             position={[t.location!.lat, t.location!.lng]}
-            icon={accentIcon(t.accent)}
-            eventHandlers={{ click: () => onSelect(t.id) }}
+            icon={accentIcon(t.accent, hoveredId === t.id)}
+            eventHandlers={{
+              mouseover: () => onHover(t.id),
+              mouseout: () => onHover(null),
+              click: () => onSelect(t.id),
+            }}
           >
-            <Popup>
+            <Popup autoPan={false} closeButton={false}>
               <strong>{t.title}</strong>
               {t.location?.label && <div>{t.location.label}</div>}
             </Popup>
