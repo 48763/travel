@@ -1,6 +1,6 @@
-# 🇯🇵 日本旅遊時程安排 (Japan Travel Itinerary)
+# 🇯🇵 旅遊時程模板 (Travel Itinerary Template)
 
-這是一個為個人旅遊設計的互動式行程網頁。具有側邊導覽目錄、行程小卡與錨點跳轉，桌機與手機皆有對應的版面，會在當天自動定位、標示「今日」並提供整日 Google Maps 路線。**支援多趟行程切換**：透過 sidebar 下拉選單或 URL hash（`#/japan-2026`）切換不同行程。
+互動式行程網頁。具有歷年旅行首頁、世界地圖總覽、單趟詳細頁（側邊導覽 + 錨點跳轉）、自動偵測「今日」並標示路線。**支援多趟行程切換**：透過 sidebar 選單或 URL hash（`#/japan-2026`）切換。
 
 🌐 **Live demo**：<https://48763.github.io/travel/>
 
@@ -12,53 +12,18 @@ npm run dev        # 開發模式 (預設 http://localhost:5173/)
 npm run build      # 產出靜態檔到 dist/
 npm run preview    # 用 vite preview 在本機預覽 production build
 npm run lint       # ESLint
-npm run geocode    # 抓行政區座標到 .places-cache/（dev/build 會自動帶跑）
+npm run geocode    # 解析 events.address → 座標 (dev/build 會自動帶跑)
 ```
 
-> 第一次跑 `npm run dev`/`npm run build` 會觸發 prebuild hook，向 OpenStreetMap Nominatim 查全部行政區座標（約 70 筆 × 1.2s ≈ 1.5 分鐘）。之後 cache 命中，瞬間完成。
-> CI（GitHub Actions）跨 build 用 `actions/cache@v4` 把 `.places-cache/` 留住，所以實際只在新增地址時打 API。
-
-## 📍 地圖座標：直接寫地址
-
-行程的 `locations` 欄位用 `jp(...)` / `tw(...)` helper，輸入「**從大到小**」的逗號分隔地址。座標由 geocode script 自動查 OpenStreetMap 補齊，cache 在 `.places-cache/`（gitignored）：
-
-```ts
-import { jp } from '../../places/japan';
-import { tw } from '../../places/taiwan';
-
-locations: [
-  jp('東京都'),                              // 第二層 → 都廳座標
-  jp('東京都,渋谷区'),                        // 第三層 → 渋谷区中心
-  jp('京都府,京都市,嵐山'),                   // 第四層 → 嵐山
-  jp('大阪府,泉佐野市,関西国際空港'),          // 任意層次的地點都可以
-  tw('台北市,萬華區'),                        // 台灣
-]
-```
-
-第二層各國事先有 seed 在 `src/places/<country>.seed.json`（台灣 22 縣市、日本 47 都道府県）。第三層以下用到才補。
-
-新增國家：`src/places/<country>.seed.json` + `src/places/<country>.ts` (helper) + 在 `scripts/geocode.mjs` 的 `COUNTRIES` 加一行。
-
-### Label 顯示規則
-
-- **首頁卡片 / 地圖 pin**：繁中 (`names['zh-Hant']`)，沒有就 fallback 到該國原文
-- **展開卡片**：「繁中 (原文)」雙語格式；同字串自動省略括號
-
-例：
-- `jp('東京都')` → 卡片「東京都」，展開「東京都」（同字省略）
-- `jp('東京都,渋谷区')` → 卡片「澀谷區」，展開「澀谷區 (渋谷区)」
-- `jp('大阪府,泉佐野市,関西国際空港')` → 卡片「關西國際機場」，展開「關西國際機場 (関西国際空港)」
-
-也可以在 trip 檔覆寫 label：
-```ts
-jp('東京都,渋谷区', { label: '我的私房景點' })
-```
+> **第一次跑** `npm run dev` / `npm run build` 會自動觸發 prebuild hook，把每個 trip 檔裡的 `event.address` 送 OpenStreetMap Nominatim 解析（每筆約 1.2 秒，含 fallback 退階）。結果寫到 `.places-cache/addresses.json`（gitignored）。
+>
+> **後續執行** 只查新增的地址，已 cache 的瞬間命中。
+>
+> **CI**（GitHub Actions）跨 build 用 `actions/cache@v4` 把 `.places-cache/` 留住，所以實際每次 push 也只是補新地址。
 
 ## 🧳 新增一趟行程
 
-每趟行程是 `src/trips/<年份>/<名稱>.ts` 一個檔案，**完全不需要改任何 index 或路由設定**——`src/trips/index.ts` 用 `import.meta.glob('./*/*.ts')` 自動掃所有年份資料夾。
-
-範例：
+每趟行程是 `src/trips/<分類>/<名稱>.ts` 一個檔案，**完全不需要改任何 index 或路由設定**——`src/trips/index.ts` 用 `import.meta.glob('./*/*.ts')` 自動掃所有資料夾。
 
 ```ts
 // src/trips/2026/japan.ts
@@ -81,7 +46,7 @@ export default defineTrip(
           time: '07:20',
           title: '啟程飛往日本',
           details: ['長榮航空 BR192', '台北松山 (TSA)'],
-          address: '台北松山機場 (TSA)',
+          address: '台北松山機場 (TSA)',  // ← 自動解析座標 + 行政階層
         },
       ],
     },
@@ -89,6 +54,8 @@ export default defineTrip(
   ],
 );
 ```
+
+**就這樣**。地圖 pin、首頁卡片地點清單、polyline，全部從 `events.address` 自動推 — **不需要再寫 `locations`**。
 
 ### 目錄分層
 
@@ -100,70 +67,133 @@ src/trips/
   2027/                       ← 之後新年份就再開一個資料夾
     japan-spring.ts
   samples/                    ← 範例獨立一層，不混進真實年份
-    japan-spring.ts           →  id: 'japan-2026-spring' (範例)
+    japan-spring.ts
 ```
 
-一年多趟：同一年份資料夾裡放多份檔案即可，例如 `2026/japan-may.ts` 跟 `2026/japan-october.ts`。`id` 跟 `title` 唯一即可，命名隨意。Sidebar 下拉會顯示所有趟，依首日日期升冪排序。
+一年多趟：同一年份資料夾裡放多份檔案即可（`2026/japan-may.ts`、`2026/japan-october.ts`）。
 
 ### 跨年行程
 
-`startMonth` 是用來支援跨年旅行：`d(month, day)` 傳入的 `month < startMonth` 時會視為已跨進新一年，自動把年份 +1。
+`startMonth` 用來支援跨年旅行：`d(month, day)` 傳入的 `month < startMonth` 時會視為已跨進新一年，自動把年份 +1。
 
 | TRIP 設定 | `d(12, 28)` | `d(1, 3)` |
 |---|---|---|
 | `year: 2026, startMonth: 12` | `2026-12-28` | `2027-01-03` |
 | `year: 2026, startMonth: 5`  | `2026-12-28` | `2026-01-03`（沒跨年）|
 
-例外情況（測試資料、跨多年的長旅行）就直接寫 ISO 字串 `'2026-04-29'` 取代 `d()`。
+例外情況（測試資料、跨多年的長旅行）直接寫 ISO 字串 `'2026-04-29'` 取代 `d()`。
+
+## 📍 地址 → 座標：自動 geocoding
+
+每個 event 的 `address` 是 free-form 字串。`scripts/geocode.mjs` 會：
+
+1. 掃 `src/trips/**/*.ts` 取出所有 `address` 字串
+2. 比對 `.places-cache/addresses.json`，缺的去 Nominatim 查
+3. 失敗會自動退階（去括號、去丁目、去街道名…），最多嘗試到第二層行政區
+4. 從回應抽出 `lat / lng / namedetails / 行政階層 / 機場/車站分類`
+5. 寫回 cache
+
+### 機場 / 車站自動分類
+
+Geocode script 看 Nominatim 的 `class: aeroway` / `class: railway` 欄位，自動把地址標記為 `airport` / `station` / `place`。為了避免退階匹配誤判（例如飯店地址退階到附近車站），加了 keyword guard：原 query 必須含 `機場 / 空港 / 駅 / station / airport` 等字才會被歸為 transit。
+
+**Transit 點在 UI 的特殊處理**：
+
+- **地圖**：小灰色 pin，**不參與 polyline**，FitBounds 也排除（zoom 聚焦真正旅遊區域）
+- **首頁卡片**：用交通工具圖示取代名稱，連續同類自動合併
+  - `airport` → `✈`
+  - `station` → `🚆`
+  - 例：你的 trip 從 TPE 飛到 HND，卡片顯示「✈ → 江東區 → 千代田區 → 港區 → ✈」
+- **Trip 詳細頁**：照常顯示 `event.address` 跟 Google Maps 連結
+
+### 行政階層：依國家分支
+
+不同國家的 Nominatim 回應結構不一致，script 內建幾個國家的 fallback：
+
+- **日本**：`state` 缺時用 `ISO3166-2-lvl4` 推都道府県（東京特別区、大阪這種沒填 state 的情況）；政令市（京都/大阪/横浜/名古屋…）會額外加 `suburb` 為第三層（下京区、北区等）
+- **台灣**：`city`（直轄市/縣市）+ `suburb`（區/鄉/鎮）
+- **其他**：`state` + `city/county` 的 generic fallback
+
+新增國家 fallback：在 `scripts/geocode.mjs` 看 `pickAdminPath()`，按該國行政結構新增 case。
+
+### Label 顯示規則
+
+- **首頁卡片 / 地圖 pin**：繁中 (`names['zh-Hant']`)，沒有就 fallback 到該國原文
+- **展開卡片**：「繁中 (原文)」雙語格式；同字串自動省略括號
 
 ## 🧩 資料結構
 
-- **`Day.date`**: ISO `YYYY-MM-DD`，畫面上自動格式化成「05/28 (四)」。
-- **`Event.type`**: 字串列舉，決定該 event 的 icon 與顏色。目前支援：
-  `planeDeparture` / `planeArrival` / `train` / `schedule` / `hotel` / `food` / `shopping` / `activity` / `walking` / `luggage` / `social` / `unknown`。
-- **`Event.details`**: `string` 或 `string[]`。陣列時每個元素自成一行（內部以 `\n` 串接，CSS 用 `pre-wrap` 渲染）。
-- **`Event.address`**: 有填的話會自動產出 Google Maps 連結；同一天 ≥ 2 個 events 帶 address 時，日期欄會自動出現「路線」按鈕串成多點導航。
-- **`Event.lines`**: 交通線路 chip（顏色 + 名稱 + 描述），用於描述地鐵/鐵道轉乘。
+| 欄位 | 說明 |
+|---|---|
+| `Day.date` | ISO `YYYY-MM-DD`，畫面上格式化成「05/28 (四)」 |
+| `Event.type` | 字串列舉，決定該 event 的 icon 與顏色 |
+| `Event.time` | 時間字串（free form） |
+| `Event.title` | 標題 |
+| `Event.details` | `string` 或 `string[]`，陣列每個元素自成一行 |
+| `Event.address` | Google Maps 連結 + **自動 geocoding 的來源** |
+| `Event.lines` | 交通線路 chip（顏色 + 名稱 + 描述），描述地鐵/鐵道轉乘 |
+
+`Event.type` 目前支援：
+`planeDeparture` / `planeArrival` / `train` / `schedule` / `hotel` / `food` / `shopping` / `activity` / `walking` / `luggage` / `social` / `unknown`
 
 ### 預設行程怎麼選
 
-進站時優先順序：
+進站順序：
 
-1. URL hash 指定的 `id`（例如 `#/japan-2026-autumn`）。
-2. 今日落在某一趟的日期區間內 → 自動切到該趟。
-3. 否則 → 行程清單裡最後一趟（最新一趟）。
+1. URL hash 指定的 `id`（例如 `#/japan-2026-autumn`）→ 進該趟
+2. 今日落在某一趟的日期區間內 → 自動切到該趟並捲到當日
+3. 否則 → 顯示**歷年旅行首頁**（卡片清單 + 世界地圖）
 
 ### 加一個新的 event 類型
 
-1. `src/types.ts` 的 `EventType` 聯合型別加入新名字（例如 `'onsen'`）。
-2. `src/eventStyle.tsx` 的 `EVENT_STYLE` 對應新增 `{ icon: <FaXxx />, color: '#...' }`。
-3. 任何 trip 即可使用 `type: 'onsen'`。
+1. `src/types.ts` 的 `EventType` 聯合型別加入新名字（例如 `'onsen'`）
+2. `src/eventStyle.tsx` 的 `EVENT_STYLE` 對應新增 `{ icon: <FaXxx />, color: '#...' }`
+3. 任何 trip 即可使用 `type: 'onsen'`
 
 ## 📂 專案結構
 
-- `src/App.tsx` — 主元件：Sidebar / DayEntry / EventCard / ScrollControls，含「今日」自動定位與 trip 切換邏輯。
-- `src/App.css` — 視覺樣式與 RWD（≤ 768px overlay sidebar、日期 sticky 在頂部）。`--accent` CSS 變數從 `App.tsx` 注入，由 trip.accent 控制。
-- `src/trip.ts` — `TripDefinition` / `TripMeta` 型別 + `defineTrip(meta, scheduleFn)` 工廠（負責 binding `d()` helper）。
-- `src/trips/<year>/<name>.ts` — 真實行程依年份分層；每趟一個檔，`export default defineTrip(...)`。
-- `src/trips/samples/<name>.ts` — 範例行程，獨立一層不混進真實年份（一樣會被 glob 收進 dropdown，但不影響「最新一趟」的排序判斷邏輯本身——只看 `schedule[0].date`）。
-- `src/trips/index.ts` — auto-glob (`./*/*.ts`) 收集所有 trip + `pickDefaultTrip(today)`。
-- `src/types.ts` — `Day` / `Event` / `Line` / `EventType` 型別。
-- `src/eventStyle.tsx` — `EventType` 到 icon + color 的集中對應表。
-- `src/places/<country>.seed.json` — 該國第二層行政區清單（committed）。
-- `src/places/<country>.ts` — `jp()` / `tw()` 等 helper，從 cache 讀座標。
-- `scripts/geocode.mjs` — Nominatim 查座標、寫到 `.places-cache/<country>.json`（gitignored）。
+```
+src/
+  App.tsx                    ← routing (hash → trip 或 landing) + layout
+  App.css                    ← 樣式 + RWD (≤768px sidebar overlay)
+  main.tsx
+  constants.ts               ← MOBILE_QUERY 等共用常數
+  dateUtils.ts               ← formatDate / todayISO / dayStatus
+  types.ts                   ← Day / Event / Line / EventType
+  eventStyle.tsx             ← EventType → icon + color 對應表
+  trip.ts                    ← TripDefinition / TripLocation 型別 + defineTrip 工廠
+                                (defineTrip 自動從 events.address 推出 locations)
+  trips/
+    index.ts                 ← auto-glob './*/*.ts' + 分組+排序
+    2026/japan.ts            ← 真實行程
+    samples/japan-spring.ts  ← 範例行程
+  TripIndex.tsx              ← 歷年旅行首頁 (卡片清單，依分類分區)
+  TripMap.tsx                ← Leaflet 世界地圖 + transit pin 區分
+  TripSelector.tsx           ← Sidebar 下拉切換選單 (扁平分組清單)
+  Sidebar.tsx                ← Trip 詳細頁的側邊導覽
+  DayEntry.tsx               ← 一天的事件清單
+  EventCard.tsx              ← 單一 event 顯示
+  ScrollControls.tsx         ← 右下角浮動按鈕 (回頂端/到底/回首頁)
+
+scripts/
+  geocode.mjs                ← Nominatim 解析 events.address → .places-cache/
+
+.places-cache/               ← gitignored，CI 用 actions/cache 跨 build 留存
+  addresses.json             ← 解析結果：{lat,lng,names,adminPath,kind,...}
+```
 
 ## ✨ 特色
 
-- **多趟切換**：sidebar 下拉與 URL hash（`#/<id>`），主色／標題／路線都跟著切換。
-- **今日自動定位**：開啟頁面如果當天落在某一趟內，自動切到該趟並捲到當日。
-- **過去日期淡化**：已過去的日期透明度降低，視覺上更聚焦於現在與未來。
-- **整日路線**：每天若有 ≥ 2 個帶地址的 event，日期欄會多一個「路線」按鈕，一鍵開啟 Google Maps 多點路線。
-- **桌機**：sidebar 常駐左側、可收合。
-- **手機**：sidebar 改為覆蓋式 overlay，點外側遮罩或選單項目自動關閉；日期欄 sticky 在頂部。
-- **回頂端／到最底**：右下角浮動按鈕。
+- **歷年旅行首頁**：所有 trip 卡片依分類顯示，世界地圖標出每趟旅遊區域；hover 卡片時對應地圖 pin 高亮、地圖飛過去；點卡片展開預覽，再點「進入行程」進入該趟
+- **多趟切換**：sidebar 下拉與 URL hash（`#/<id>`），主色／標題／路線都跟著切換
+- **今日自動定位**：開啟頁面如果當天落在某一趟內，自動切到該趟並捲到當日
+- **過去日期淡化**：已過去的日期透明度降低
+- **整日路線**：每天 ≥ 2 個帶地址的 event，日期欄會多一個「路線」按鈕，一鍵 Google Maps 多點導航
+- **手機**：sidebar 改為覆蓋式 overlay，trip selector 全螢幕 drawer；點選單項目自動關閉
+- **transit 區分**：機場/車站自動偵測，地圖小灰 pin、卡片用 ✈ / 🚆 圖示取代
 
 ## 🚢 部署
 
-- 推上 `main` 會由 GitHub Actions（`.github/workflows/deploy.yml`）自動 build 並 deploy 到 `gh-pages` 分支。
-- 容器化：`docker compose up --build`，預設曝露 `8080:80`。
+- 推上 `main` → GitHub Actions（`.github/workflows/deploy.yml`）自動 build + deploy 到 `gh-pages` 分支
+  - 內含 `actions/cache@v4` 跨 build 留住 `.places-cache/`，CI 也只查新地址
+- 容器化：`docker compose up --build`，預設曝露 `8080:80`
