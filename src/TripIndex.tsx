@@ -1,4 +1,5 @@
-import { useState, type CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import { tripsByCategory, labelOfCategory } from './trips';
 import type { TripDefinition } from './trip';
 import { TripMap } from './TripMap';
@@ -39,33 +40,104 @@ function dayCount(first: string, last: string): number {
   return Math.round((b - a) / 86400000) + 1;
 }
 
+function fullLocationText(trip: TripDefinition): string {
+  return (trip.locations ?? [])
+    .map((l) => l.label)
+    .filter(Boolean)
+    .join(' → ');
+}
+
 type TripCardProps = {
   trip: TripDefinition;
   status: TripStatus;
   isHighlighted: boolean;
-  onSelect: () => void;
+  isExpanded: boolean;
+  onExpand: () => void;
+  onCollapse: () => void;
+  onEnter: () => void;
   onHover: () => void;
   onLeave: () => void;
 };
 
 const TripCard = ({
-  trip, status, isHighlighted, onSelect, onHover, onLeave,
+  trip, status, isHighlighted, isExpanded,
+  onExpand, onCollapse, onEnter, onHover, onLeave,
 }: TripCardProps) => {
   const range = tripDateRange(trip);
   const accentStyle = { '--card-accent': trip.accent } as CSSProperties;
+  const locText = fullLocationText(trip);
+
+  if (isExpanded) {
+    return (
+      <article
+        className={`trip-card trip-card--${status} is-expanded`}
+        style={accentStyle}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+      >
+        <span className="trip-card__rail" aria-hidden="true" />
+        <button
+          type="button"
+          className="trip-card__close"
+          onClick={onCollapse}
+          aria-label="收起"
+        >
+          <FaTimes />
+        </button>
+        <div className="trip-card__body">
+          <div className="trip-card__heading">
+            <h3 className="trip-card__title trip-card__title--expanded">{trip.title}</h3>
+            <span className={`trip-card__badge trip-card__badge--${status}`}>
+              {STATUS_LABEL[status]}
+            </span>
+          </div>
+          <div className="trip-card__meta">
+            {range && (
+              <span className="trip-card__range">
+                {formatShort(range.first)} – {formatShort(range.last)}
+              </span>
+            )}
+            {range && (
+              <span className="trip-card__days">
+                {dayCount(range.first, range.last)} 天
+              </span>
+            )}
+            <span className="trip-card__events">
+              {trip.schedule.reduce((n, d) => n + d.events.length, 0)} 個 events
+            </span>
+          </div>
+          {locText && (
+            <div className="trip-card__location-full">
+              📍 {locText}
+            </div>
+          )}
+          <div className="trip-card__actions">
+            <button
+              type="button"
+              className="trip-card__enter"
+              onClick={onEnter}
+            >
+              進入行程 →
+            </button>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
   return (
     <button
       type="button"
       className={`trip-card trip-card--${status} ${isHighlighted ? 'is-highlighted' : ''}`}
       style={accentStyle}
-      onClick={onSelect}
+      onClick={onExpand}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
     >
       <span className="trip-card__rail" aria-hidden="true" />
       <div className="trip-card__body">
         <div className="trip-card__heading">
-          <h3 className="trip-card__title">{trip.title}</h3>
+          <h3 className="trip-card__title" title={trip.title}>{trip.title}</h3>
           <span className={`trip-card__badge trip-card__badge--${status}`}>
             {STATUS_LABEL[status]}
           </span>
@@ -81,9 +153,9 @@ const TripCard = ({
               {dayCount(range.first, range.last)} 天
             </span>
           )}
-          {trip.locations && trip.locations.some((l) => l.label) && (
-            <span className="trip-card__location">
-              📍 {trip.locations.map((l) => l.label).filter(Boolean).join(' → ')}
+          {locText && (
+            <span className="trip-card__location" title={locText}>
+              📍 {locText}
             </span>
           )}
         </div>
@@ -99,7 +171,28 @@ type TripIndexProps = {
 
 export const TripIndex = ({ today, onSelect }: TripIndexProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const totalTrips = tripsByCategory.reduce((n, [, list]) => n + list.length, 0);
+
+  useEffect(() => {
+    if (!expandedId) return;
+    const onClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.trip-card.is-expanded')) {
+        setExpandedId(null);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setExpandedId(null);
+    };
+    document.addEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [expandedId]);
+
   return (
     <div className="trip-index">
       <header className="trip-index__hero">
@@ -123,7 +216,10 @@ export const TripIndex = ({ today, onSelect }: TripIndexProps) => {
                 trip={trip}
                 status={tripStatus(trip, category, today)}
                 isHighlighted={hoveredId === trip.id}
-                onSelect={() => onSelect(trip.id)}
+                isExpanded={expandedId === trip.id}
+                onExpand={() => setExpandedId(trip.id)}
+                onCollapse={() => setExpandedId(null)}
+                onEnter={() => onSelect(trip.id)}
                 onHover={() => setHoveredId(trip.id)}
                 onLeave={() => setHoveredId(null)}
               />
