@@ -853,6 +853,47 @@ body {
   word-break: break-word;
 }
 
+.trip-card__locations {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trip-card__location-item {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.trip-card__location-marker {
+  flex-shrink: 0;
+  color: #95a5a6;
+  font-size: 0.85em;
+  width: 1.2em;
+  text-align: center;
+}
+
+.trip-card__location-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.trip-card__location-name {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.trip-card__location-context {
+  color: #7f8c8d;
+  font-size: 0.9em;
+}
+
 .trip-card__actions {
   margin-top: 1.25rem;
   display: flex;

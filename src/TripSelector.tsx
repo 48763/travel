@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { FaChevronDown, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
 import { tripEntries, tripsByCategory, labelOfCategory } from './trips';
 import type { TripDefinition } from './trip';
@@ -105,7 +106,7 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
         />
       </button>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <div
           ref={menuRef}
           className="trip-selector__menu"
@@ -185,7 +186,8 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
               ))}
             </ul>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );

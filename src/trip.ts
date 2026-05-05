@@ -6,6 +6,7 @@ export interface TripLocation {
   label?: string;
   names?: Record<string, string>;
   nativeLang?: string;
+  path?: string;
 }
 
 export interface TripMeta {

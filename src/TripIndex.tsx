@@ -59,6 +59,13 @@ function formatBilingual(loc: TripLocation): string {
   return `${zh} (${native})`;
 }
 
+function locationContext(loc: TripLocation): string {
+  if (!loc.path) return '';
+  const parts = loc.path.split(',').map((s) => s.trim()).filter(Boolean);
+  if (parts.length <= 1) return '';
+  return parts.slice(0, -1).join(', ');
+}
+
 type TripCardProps = {
   trip: TripDefinition;
   status: TripStatus;
@@ -119,9 +126,25 @@ const TripCard = ({
             </span>
           </div>
           {trip.locations && trip.locations.length > 0 && (
-            <div className="trip-card__location-full">
-              📍 {trip.locations.map(formatBilingual).join(' → ')}
-            </div>
+            <ul className="trip-card__locations">
+              {trip.locations.map((loc, i) => {
+                const name = formatBilingual(loc);
+                const ctx = locationContext(loc);
+                return (
+                  <li key={i} className="trip-card__location-item">
+                    <span className="trip-card__location-marker" aria-hidden="true">
+                      {i === 0 ? '📍' : '→'}
+                    </span>
+                    <span className="trip-card__location-text">
+                      <span className="trip-card__location-name">{name}</span>
+                      {ctx && (
+                        <span className="trip-card__location-context"> ─ {ctx}</span>
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           )}
           <div className="trip-card__actions">
             <button

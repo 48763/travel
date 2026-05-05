@@ -26,6 +26,7 @@ export const jp = (key: string, override?: Partial<TripLocation>): TripLocation 
     label: labelDefault,
     names: entry.names,
     nativeLang: NATIVE_LANG,
+    path: key,
     ...override,
   };
 };
