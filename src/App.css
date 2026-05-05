@@ -151,19 +151,17 @@ body {
   position: fixed;
   left: var(--menu-left, 0);
   top: var(--menu-top, 0);
-  display: flex;
-  gap: 4px;
   z-index: 200;
 }
 
 .trip-selector__panel {
-  width: 220px;
+  width: 260px;
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   padding: 4px;
-  max-height: 60vh;
+  max-height: 70vh;
   overflow-y: auto;
 }
 
@@ -177,7 +175,37 @@ body {
   padding: 0;
 }
 
-.trip-selector__category,
+.trip-selector__group {
+  margin-bottom: 4px;
+}
+
+.trip-selector__group:last-child {
+  margin-bottom: 0;
+}
+
+.trip-selector__group-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #95a5a6;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 8px 0 2px;
+  padding: 4px 12px;
+}
+
+.trip-selector__group-count {
+  color: #bdc3c7;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.trip-selector__group-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .trip-selector__option {
   width: 100%;
   display: flex;
@@ -195,11 +223,6 @@ body {
   font-family: inherit;
 }
 
-.trip-selector__category:hover,
-.trip-selector__category.is-active {
-  background: #f4f6f8;
-}
-
 .trip-selector__option:hover {
   background: #f4f6f8;
 }
@@ -209,14 +232,17 @@ body {
   font-weight: 600;
 }
 
-.trip-selector__arrow {
-  font-size: 0.7rem;
-  color: #95a5a6;
-  flex-shrink: 0;
+.trip-selector__option-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
-.trip-selector__panel--child:not(.is-active) {
-  display: none;
+.trip-selector__option-current {
+  color: var(--accent);
+  font-size: 0.6rem;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -224,8 +250,6 @@ body {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    display: block;
-    gap: 0;
   }
 
   .trip-selector__panel {
@@ -239,6 +263,7 @@ body {
     box-shadow: none;
     padding: 0;
     background: #fff;
+    overflow-y: auto;
   }
 
   .trip-selector__panel-header {
@@ -260,7 +285,6 @@ body {
     color: #2c3e50;
   }
 
-  .trip-selector__panel-back,
   .trip-selector__panel-close {
     border: none;
     background: none;
@@ -271,33 +295,24 @@ body {
     border-radius: 4px;
   }
 
-  .trip-selector__panel-back:hover,
   .trip-selector__panel-close:hover {
     background: #f4f6f8;
     color: #2c3e50;
-  }
-
-  .trip-selector__panel--root .trip-selector__panel-back {
-    visibility: hidden;
   }
 
   .trip-selector__list {
     padding: 8px;
   }
 
-  .trip-selector__category,
+  .trip-selector__group-label {
+    margin-top: 12px;
+    padding: 4px 8px;
+  }
+
   .trip-selector__option {
     padding: 14px 12px;
     font-size: 1rem;
     border-radius: 6px;
-  }
-
-  /* Mobile: only one panel visible at a time, swap by display */
-  .trip-selector__menu:not(.has-active) .trip-selector__panel--child {
-    display: none;
-  }
-  .trip-selector__menu.has-active .trip-selector__panel--root {
-    display: none;
   }
 }
 

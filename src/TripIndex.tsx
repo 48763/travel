@@ -40,11 +40,22 @@ function dayCount(first: string, last: string): number {
   return Math.round((b - a) / 86400000) + 1;
 }
 
-function fullLocationText(trip: TripDefinition): string {
-  return (trip.locations ?? [])
-    .map((l) => l.label)
-    .filter(Boolean)
-    .join(' → ');
+// 把連續同分區（路徑前 N 段相同）的地點合併，輸出每段的代表名稱。
+// 預設 N = 2（例如 日本「都道府県, 市/区」），所以連續多個 渋谷区/某景點 會合併成一個 渋谷区。
+function consolidatedRegions(trip: TripDefinition, level = 2): string[] {
+  const out: string[] = [];
+  let lastKey: string | null = null;
+  for (const loc of trip.locations ?? []) {
+    if (!loc.path) continue;
+    const parts = loc.path.split(',').map((s) => s.trim()).filter(Boolean);
+    const key = parts.slice(0, level).join(',');
+    if (key !== lastKey) {
+      const idx = Math.min(level - 1, parts.length - 1);
+      out.push(parts[idx]);
+      lastKey = key;
+    }
+  }
+  return out;
 }
 
 function formatBilingual(loc: TripLocation): string {
@@ -84,7 +95,7 @@ const TripCard = ({
 }: TripCardProps) => {
   const range = tripDateRange(trip);
   const accentStyle = { '--card-accent': trip.accent } as CSSProperties;
-  const locText = fullLocationText(trip);
+  const compactRegions = consolidatedRegions(trip, 2);
 
   if (isExpanded) {
     return (
@@ -188,9 +199,12 @@ const TripCard = ({
               {dayCount(range.first, range.last)} 天
             </span>
           )}
-          {locText && (
-            <span className="trip-card__location" title={locText}>
-              📍 {locText}
+          {compactRegions.length > 0 && (
+            <span
+              className="trip-card__location"
+              title={compactRegions.join(' → ')}
+            >
+              📍 {compactRegions.join(' → ')}
             </span>
           )}
         </div>

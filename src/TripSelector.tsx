@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
-import { FaChevronDown, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
-import { tripEntries, tripsByCategory, labelOfCategory } from './trips';
+import { FaChevronDown, FaTimes } from 'react-icons/fa';
+import { tripsByCategory, labelOfCategory } from './trips';
 import type { TripDefinition } from './trip';
 import { MOBILE_QUERY } from './constants';
 
@@ -12,7 +12,6 @@ type TripSelectorProps = {
 
 export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [menuPos, setMenuPos] = useState({ left: 0, top: 0 });
   const ref = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -45,12 +44,7 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
       setIsOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      if (isMobile() && activeCategory) {
-        setActiveCategory(null);
-      } else {
-        setIsOpen(false);
-      }
+      if (e.key === 'Escape') setIsOpen(false);
     };
     document.addEventListener('mousedown', onClickOutside);
     document.addEventListener('keydown', onKey);
@@ -58,7 +52,7 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
       document.removeEventListener('mousedown', onClickOutside);
       document.removeEventListener('keydown', onKey);
     };
-  }, [isOpen, activeCategory]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -68,27 +62,14 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
     return () => { document.body.style.overflow = prev; };
   }, [isOpen]);
 
-  const open = () => {
-    const cat = tripEntries.find((e) => e.trip.id === trip.id)?.category ?? null;
-    setActiveCategory(cat);
-    setIsOpen(true);
-  };
+  const close = () => setIsOpen(false);
 
-  const close = () => {
-    setIsOpen(false);
-    setActiveCategory(null);
-  };
-
-  const handleTrigger = () => (isOpen ? close() : open());
+  const handleTrigger = () => (isOpen ? close() : setIsOpen(true));
 
   const handleSelect = (id: string) => {
     onTripChange(id);
     close();
   };
-
-  const childEntries = activeCategory
-    ? tripsByCategory.find(([c]) => c === activeCategory)?.[1] ?? []
-    : [];
 
   return (
     <div className="trip-selector" ref={ref}>
@@ -109,14 +90,14 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
       {isOpen && createPortal(
         <div
           ref={menuRef}
-          className={`trip-selector__menu ${activeCategory ? 'has-active' : ''}`}
+          className="trip-selector__menu"
           role="menu"
           style={{
             '--menu-left': `${menuPos.left}px`,
             '--menu-top': `${menuPos.top}px`,
           } as CSSProperties}
         >
-          <div className="trip-selector__panel trip-selector__panel--root">
+          <div className="trip-selector__panel">
             <div className="trip-selector__panel-header">
               <span className="trip-selector__panel-title">選擇行程</span>
               <button
@@ -128,63 +109,34 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
                 <FaTimes />
               </button>
             </div>
-            <ul className="trip-selector__list">
-              {tripsByCategory.map(([category]) => {
-                const isActive = activeCategory === category;
-                return (
-                  <li key={category}>
-                    <button
-                      type="button"
-                      className={`trip-selector__category ${isActive ? 'is-active' : ''}`}
-                      onMouseEnter={() => setActiveCategory(category)}
-                      onClick={() => setActiveCategory(category)}
-                    >
-                      <span>{labelOfCategory(category)}</span>
-                      <FaChevronRight className="trip-selector__arrow" />
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <div
-            className={`trip-selector__panel trip-selector__panel--child ${activeCategory ? 'is-active' : ''}`}
-          >
-            <div className="trip-selector__panel-header">
-              <button
-                type="button"
-                className="trip-selector__panel-back"
-                onClick={() => setActiveCategory(null)}
-                aria-label="返回"
-              >
-                <FaChevronLeft />
-              </button>
-              <span className="trip-selector__panel-title">
-                {activeCategory ? labelOfCategory(activeCategory) : ''}
-              </span>
-              <button
-                type="button"
-                className="trip-selector__panel-close"
-                onClick={close}
-                aria-label="關閉"
-              >
-                <FaTimes />
-              </button>
-            </div>
-            <ul className="trip-selector__list">
-              {childEntries.map(({ trip: t }) => (
-                <li key={t.id}>
-                  <button
-                    type="button"
-                    className={`trip-selector__option ${t.id === trip.id ? 'is-current' : ''}`}
-                    onClick={() => handleSelect(t.id)}
-                  >
-                    {t.title}
-                  </button>
-                </li>
+            <div className="trip-selector__list">
+              {tripsByCategory.map(([category, entries]) => (
+                <section key={category} className="trip-selector__group">
+                  <h3 className="trip-selector__group-label">
+                    {labelOfCategory(category)}
+                    <span className="trip-selector__group-count"> · {entries.length} 趟</span>
+                  </h3>
+                  <ul className="trip-selector__group-list">
+                    {entries.map(({ trip: t }) => (
+                      <li key={t.id}>
+                        <button
+                          type="button"
+                          className={`trip-selector__option ${t.id === trip.id ? 'is-current' : ''}`}
+                          onClick={() => handleSelect(t.id)}
+                        >
+                          <span className="trip-selector__option-title">{t.title}</span>
+                          {t.id === trip.id && (
+                            <span className="trip-selector__option-current" aria-label="目前">
+                              ●
+                            </span>
+                          )}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               ))}
-            </ul>
+            </div>
           </div>
         </div>,
         document.body,
