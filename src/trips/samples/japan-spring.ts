@@ -1,4 +1,5 @@
 import { defineTrip } from '../../trip';
+import { jp } from '../../places/japan';
 
 export default defineTrip(
   {
@@ -8,10 +9,10 @@ export default defineTrip(
     startMonth: 3,
     accent: '#ec7180',
     locations: [
-      { lat: 34.4347, lng: 135.2440, label: '関西空港' },
-      { lat: 35.0116, lng: 135.7681, label: '京都' },
-      { lat: 35.0094, lng: 135.6772, label: '嵐山' },
-      { lat: 34.4347, lng: 135.2440, label: '関西空港' },
+      jp('大阪府,泉佐野市,関西国際空港'),
+      jp('京都府,京都市'),
+      jp('京都府,京都市,嵐山'),
+      jp('大阪府,泉佐野市,関西国際空港'),
     ],
   },
   (d) => [

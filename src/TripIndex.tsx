@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { tripsByCategory, labelOfCategory } from './trips';
-import type { TripDefinition } from './trip';
+import type { TripDefinition, TripLocation } from './trip';
 import { TripMap } from './TripMap';
 
 export type TripStatus = 'past' | 'ongoing' | 'upcoming' | 'planned' | 'sample';
@@ -45,6 +45,18 @@ function fullLocationText(trip: TripDefinition): string {
     .map((l) => l.label)
     .filter(Boolean)
     .join(' → ');
+}
+
+function formatBilingual(loc: TripLocation): string {
+  const names = loc.names;
+  if (!names) return loc.label ?? '';
+  const zh = names['zh-Hant'];
+  const native = loc.nativeLang ? names[loc.nativeLang] : undefined;
+  if (!zh && !native) return loc.label ?? '';
+  if (!zh) return native ?? '';
+  if (!native) return zh;
+  if (zh === native) return zh;
+  return `${zh} (${native})`;
 }
 
 type TripCardProps = {
@@ -106,9 +118,9 @@ const TripCard = ({
               {trip.schedule.reduce((n, d) => n + d.events.length, 0)} 個 events
             </span>
           </div>
-          {locText && (
+          {trip.locations && trip.locations.length > 0 && (
             <div className="trip-card__location-full">
-              📍 {locText}
+              📍 {trip.locations.map(formatBilingual).join(' → ')}
             </div>
           )}
           <div className="trip-card__actions">

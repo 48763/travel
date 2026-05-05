@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "geocode": "node scripts/geocode.mjs",
+    "predev": "node scripts/geocode.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/geocode.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

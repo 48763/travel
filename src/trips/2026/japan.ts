@@ -1,4 +1,5 @@
 import { defineTrip } from '../../trip';
+import { jp } from '../../places/japan';
 
 export default defineTrip(
   {
@@ -8,7 +9,7 @@ export default defineTrip(
     startMonth: 5,
     accent: '#e67e22',
     locations: [
-      { lat: 35.6762, lng: 139.6503, label: '東京' },
+      jp('東京都'),
     ],
   },
   (d) => [

@@ -12,6 +12,46 @@ npm run dev        # 開發模式 (預設 http://localhost:5173/)
 npm run build      # 產出靜態檔到 dist/
 npm run preview    # 用 vite preview 在本機預覽 production build
 npm run lint       # ESLint
+npm run geocode    # 抓行政區座標到 .places-cache/（dev/build 會自動帶跑）
+```
+
+> 第一次跑 `npm run dev`/`npm run build` 會觸發 prebuild hook，向 OpenStreetMap Nominatim 查全部行政區座標（約 70 筆 × 1.2s ≈ 1.5 分鐘）。之後 cache 命中，瞬間完成。
+> CI（GitHub Actions）跨 build 用 `actions/cache@v4` 把 `.places-cache/` 留住，所以實際只在新增地址時打 API。
+
+## 📍 地圖座標：直接寫地址
+
+行程的 `locations` 欄位用 `jp(...)` / `tw(...)` helper，輸入「**從大到小**」的逗號分隔地址。座標由 geocode script 自動查 OpenStreetMap 補齊，cache 在 `.places-cache/`（gitignored）：
+
+```ts
+import { jp } from '../../places/japan';
+import { tw } from '../../places/taiwan';
+
+locations: [
+  jp('東京都'),                              // 第二層 → 都廳座標
+  jp('東京都,渋谷区'),                        // 第三層 → 渋谷区中心
+  jp('京都府,京都市,嵐山'),                   // 第四層 → 嵐山
+  jp('大阪府,泉佐野市,関西国際空港'),          // 任意層次的地點都可以
+  tw('台北市,萬華區'),                        // 台灣
+]
+```
+
+第二層各國事先有 seed 在 `src/places/<country>.seed.json`（台灣 22 縣市、日本 47 都道府県）。第三層以下用到才補。
+
+新增國家：`src/places/<country>.seed.json` + `src/places/<country>.ts` (helper) + 在 `scripts/geocode.mjs` 的 `COUNTRIES` 加一行。
+
+### Label 顯示規則
+
+- **首頁卡片 / 地圖 pin**：繁中 (`names['zh-Hant']`)，沒有就 fallback 到該國原文
+- **展開卡片**：「繁中 (原文)」雙語格式；同字串自動省略括號
+
+例：
+- `jp('東京都')` → 卡片「東京都」，展開「東京都」（同字省略）
+- `jp('東京都,渋谷区')` → 卡片「澀谷區」，展開「澀谷區 (渋谷区)」
+- `jp('大阪府,泉佐野市,関西国際空港')` → 卡片「關西國際機場」，展開「關西國際機場 (関西国際空港)」
+
+也可以在 trip 檔覆寫 label：
+```ts
+jp('東京都,渋谷区', { label: '我的私房景點' })
 ```
 
 ## 🧳 新增一趟行程
@@ -109,6 +149,9 @@ src/trips/
 - `src/trips/index.ts` — auto-glob (`./*/*.ts`) 收集所有 trip + `pickDefaultTrip(today)`。
 - `src/types.ts` — `Day` / `Event` / `Line` / `EventType` 型別。
 - `src/eventStyle.tsx` — `EventType` 到 icon + color 的集中對應表。
+- `src/places/<country>.seed.json` — 該國第二層行政區清單（committed）。
+- `src/places/<country>.ts` — `jp()` / `tw()` 等 helper，從 cache 讀座標。
+- `scripts/geocode.mjs` — Nominatim 查座標、寫到 `.places-cache/<country>.json`（gitignored）。
 
 ## ✨ 特色
 

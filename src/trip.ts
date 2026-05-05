@@ -4,6 +4,8 @@ export interface TripLocation {
   lat: number;
   lng: number;
   label?: string;
+  names?: Record<string, string>;
+  nativeLang?: string;
 }
 
 export interface TripMeta {
