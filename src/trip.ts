@@ -1,4 +1,5 @@
 import type { Day } from './types';
+import addresses from '../.places-cache/addresses.json';
 
 export interface TripLocation {
   lat: number;
@@ -15,11 +16,52 @@ export interface TripMeta {
   year: number;
   startMonth: number;
   accent: string;
+  /**
+   * 通常不用寫 — locations 會從 schedule 內每個 event.address 自動推。
+   * 只在你想覆寫自動結果時才寫。
+   */
   locations?: TripLocation[];
 }
 
 export interface TripDefinition extends TripMeta {
   schedule: Day[];
+  locations: TripLocation[];
+}
+
+interface AddressEntry {
+  lat: number;
+  lng: number;
+  names: Record<string, string>;
+  adminPath: string;
+  country: string;
+  nativeLang: string;
+}
+
+const addressCache = addresses as Record<string, AddressEntry>;
+
+function deriveLocations(schedule: Day[]): TripLocation[] {
+  const out: TripLocation[] = [];
+  for (const day of schedule) {
+    for (const event of day.events) {
+      if (!event.address) continue;
+      const cached = addressCache[event.address];
+      if (!cached) continue;
+      const label =
+        cached.names['zh-Hant'] ??
+        cached.names[cached.nativeLang] ??
+        cached.names.default ??
+        event.address;
+      out.push({
+        lat: cached.lat,
+        lng: cached.lng,
+        label,
+        names: cached.names,
+        nativeLang: cached.nativeLang,
+        path: cached.adminPath,
+      });
+    }
+  }
+  return out;
 }
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -32,5 +74,7 @@ export function defineTrip(
     const year = month < meta.startMonth ? meta.year + 1 : meta.year;
     return `${year}-${pad(month)}-${pad(day)}`;
   };
-  return { ...meta, schedule: scheduleFn(d) };
+  const schedule = scheduleFn(d);
+  const locations = meta.locations ?? deriveLocations(schedule);
+  return { ...meta, schedule, locations };
 }

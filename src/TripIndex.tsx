@@ -40,20 +40,20 @@ function dayCount(first: string, last: string): number {
   return Math.round((b - a) / 86400000) + 1;
 }
 
-// 把連續同分區（路徑前 N 段相同）的地點合併，輸出每段的代表名稱。
-// 預設 N = 2（例如 日本「都道府県, 市/区」），所以連續多個 渋谷区/某景點 會合併成一個 渋谷区。
-function consolidatedRegions(trip: TripDefinition, level = 2): string[] {
+// 把連續同行政區的地點合併。consolidation key 用整個 adminPath
+// （地理同 = 全路徑相同），display 用 path 最後一段（最具體的「區/市」級）。
+// 範例：
+//   AAAA(同 path) + B + AAA(同 path) + B + A → A → B → A → B → A
+function consolidatedRegions(trip: TripDefinition): string[] {
   const out: string[] = [];
   let lastKey: string | null = null;
   for (const loc of trip.locations ?? []) {
     if (!loc.path) continue;
+    if (loc.path === lastKey) continue;
     const parts = loc.path.split(',').map((s) => s.trim()).filter(Boolean);
-    const key = parts.slice(0, level).join(',');
-    if (key !== lastKey) {
-      const idx = Math.min(level - 1, parts.length - 1);
-      out.push(parts[idx]);
-      lastKey = key;
-    }
+    const display = parts[parts.length - 1] ?? loc.label ?? '';
+    if (display) out.push(display);
+    lastKey = loc.path;
   }
   return out;
 }
@@ -95,7 +95,7 @@ const TripCard = ({
 }: TripCardProps) => {
   const range = tripDateRange(trip);
   const accentStyle = { '--card-accent': trip.accent } as CSSProperties;
-  const compactRegions = consolidatedRegions(trip, 2);
+  const compactRegions = consolidatedRegions(trip);
 
   if (isExpanded) {
     return (
