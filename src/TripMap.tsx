@@ -5,25 +5,28 @@ import {
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { trips } from './trips';
-import type { TripDefinition } from './trip';
+import type { TripDefinition, TripLocation } from './trip';
 
-const accentIcon = (color: string, highlighted: boolean) =>
+const TRANSIT_KINDS = new Set(['airport', 'station']);
+const isTransit = (loc: TripLocation) => TRANSIT_KINDS.has(loc.kind ?? '');
+const placeOnly = (locs: TripLocation[]) => locs.filter((l) => !isTransit(l));
+
+const accentIcon = (color: string, highlighted: boolean, transit: boolean) =>
   L.divIcon({
-    className: `trip-pin ${highlighted ? 'is-highlighted' : ''}`,
+    className: `trip-pin ${highlighted ? 'is-highlighted' : ''} ${transit ? 'is-transit' : ''}`,
     html: `<span style="background:${color}"></span>`,
-    iconSize: [18, 18],
-    iconAnchor: [9, 9],
+    iconSize: transit ? [12, 12] : [18, 18],
+    iconAnchor: transit ? [6, 6] : [9, 9],
   });
-
-const allCoords = (items: TripDefinition[]) =>
-  items.flatMap((t) =>
-    (t.locations ?? []).map((l) => [l.lat, l.lng] as [number, number]),
-  );
 
 const FitBounds = ({ items }: { items: TripDefinition[] }) => {
   const map = useMap();
   useEffect(() => {
-    const coords = allCoords(items);
+    // 地圖一開始 fit 在所有「實際地點」上；如果完全沒有 place 才退而 fit 全部
+    const places = items.flatMap((t) => placeOnly(t.locations ?? []));
+    const fallback = items.flatMap((t) => t.locations ?? []);
+    const target = places.length > 0 ? places : fallback;
+    const coords = target.map((l) => [l.lat, l.lng] as [number, number]);
     if (coords.length === 0) return;
     if (coords.length === 1) {
       map.setView(coords[0], 5);
@@ -44,7 +47,9 @@ const FlyToHovered = ({
   useEffect(() => {
     if (!hoveredId) return;
     const target = items.find((t) => t.id === hoveredId);
-    const locs = target?.locations ?? [];
+    if (!target) return;
+    const places = placeOnly(target.locations ?? []);
+    const locs = places.length > 0 ? places : (target.locations ?? []);
     if (locs.length === 0) return;
     if (locs.length === 1) {
       map.flyTo([locs[0].lat, locs[0].lng], map.getZoom(), { duration: 0.4 });
@@ -68,6 +73,8 @@ export const TripMap = ({ hoveredId, onHover, onSelect }: TripMapProps) => {
     [],
   );
   const hovered = hoveredId ? located.find((t) => t.id === hoveredId) : null;
+  // Polyline 只串實際地點，跳過 transit
+  const hoveredPolyline = hovered ? placeOnly(hovered.locations ?? []) : [];
 
   if (located.length === 0) return null;
 
@@ -86,9 +93,9 @@ export const TripMap = ({ hoveredId, onHover, onSelect }: TripMapProps) => {
         <FitBounds items={located} />
         <FlyToHovered items={located} hoveredId={hoveredId} />
 
-        {hovered && hovered.locations && hovered.locations.length >= 2 && (
+        {hovered && hoveredPolyline.length >= 2 && (
           <Polyline
-            positions={hovered.locations.map((l) => [l.lat, l.lng])}
+            positions={hoveredPolyline.map((l) => [l.lat, l.lng])}
             pathOptions={{ color: hovered.accent, weight: 3, opacity: 0.7 }}
           />
         )}
@@ -98,14 +105,14 @@ export const TripMap = ({ hoveredId, onHover, onSelect }: TripMapProps) => {
             <Marker
               key={`${t.id}-${i}`}
               position={[loc.lat, loc.lng]}
-              icon={accentIcon(t.accent, hoveredId === t.id)}
+              icon={accentIcon(t.accent, hoveredId === t.id, isTransit(loc))}
               eventHandlers={{
                 mouseover: () => onHover(t.id),
                 mouseout: () => onHover(null),
                 click: () => onSelect(t.id),
               }}
             >
-              <Tooltip direction="top" offset={[0, -8]}>
+              <Tooltip direction="top" offset={[0, isTransit(loc) ? -6 : -8]}>
                 <strong>{t.title}</strong>
                 {loc.label && <div>{loc.label}</div>}
               </Tooltip>

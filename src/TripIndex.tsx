@@ -42,13 +42,15 @@ function dayCount(first: string, last: string): number {
 
 // 把連續同行政區的地點合併。consolidation key 用整個 adminPath
 // （地理同 = 全路徑相同），display 用 path 最後一段（最具體的「區/市」級）。
-// 範例：
-//   AAAA(同 path) + B + AAA(同 path) + B + A → A → B → A → B → A
+// 機場、車站等 transit 點不算「目的地」、跳過不顯示在 compact 卡片。
+const TRANSIT_KINDS = new Set(['airport', 'station']);
+
 function consolidatedRegions(trip: TripDefinition): string[] {
   const out: string[] = [];
   let lastKey: string | null = null;
   for (const loc of trip.locations ?? []) {
     if (!loc.path) continue;
+    if (TRANSIT_KINDS.has(loc.kind ?? '')) continue;
     if (loc.path === lastKey) continue;
     const parts = loc.path.split(',').map((s) => s.trim()).filter(Boolean);
     const display = parts[parts.length - 1] ?? loc.label ?? '';

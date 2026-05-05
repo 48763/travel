@@ -203,7 +203,24 @@ async function tryQuery(query) {
     adminPath: pickAdminPath(addr),
     country: addr.country ?? '',
     nativeLang: NATIVE_LANG_BY_CC[cc] ?? 'en',
+    kind: classifyKind(hit, query),
   };
+}
+
+// 用戶原 query 含這些字樣，才允許標為 transit。否則退階匹配到附近機場/車站時會誤判
+// （例如飯店地址退階到「浜松町」誤命中浜松町駅）。
+const TRANSIT_KEYWORD_RE = /機場|空港|airport|駅|車站|station/i;
+
+function classifyKind(hit, query) {
+  const klass = (hit.class ?? '').toLowerCase();
+  const type = (hit.type ?? '').toLowerCase();
+  const addresstype = (hit.addresstype ?? '').toLowerCase();
+  const looksLikeTransit = TRANSIT_KEYWORD_RE.test(query);
+  const isAeroway = klass === 'aeroway' || addresstype === 'aeroway' || type === 'aerodrome';
+  const isRailway = klass === 'railway' || addresstype === 'station' || type === 'station';
+  if (isAeroway && looksLikeTransit) return 'airport';
+  if (isRailway && looksLikeTransit) return 'station';
+  return 'place';
 }
 
 async function geocode(originalAddr) {

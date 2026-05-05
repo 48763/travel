@@ -1,6 +1,8 @@
 import type { Day } from './types';
 import addresses from '../.places-cache/addresses.json';
 
+export type LocationKind = 'place' | 'airport' | 'station';
+
 export interface TripLocation {
   lat: number;
   lng: number;
@@ -8,6 +10,7 @@ export interface TripLocation {
   names?: Record<string, string>;
   nativeLang?: string;
   path?: string;
+  kind?: LocationKind;
 }
 
 export interface TripMeta {
@@ -35,6 +38,7 @@ interface AddressEntry {
   adminPath: string;
   country: string;
   nativeLang: string;
+  kind?: LocationKind;
 }
 
 const addressCache = addresses as Record<string, AddressEntry>;
@@ -58,6 +62,7 @@ function deriveLocations(schedule: Day[]): TripLocation[] {
         names: cached.names,
         nativeLang: cached.nativeLang,
         path: cached.adminPath,
+        kind: cached.kind,
       });
     }
   }
