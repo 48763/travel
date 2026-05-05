@@ -292,18 +292,12 @@ body {
     border-radius: 6px;
   }
 
-  .trip-selector__panel--child {
-    transform: translateX(100%);
-    transition: transform 0.25s ease;
+  /* Mobile: only one panel visible at a time, swap by display */
+  .trip-selector__menu:not(.has-active) .trip-selector__panel--child {
+    display: none;
   }
-
-  .trip-selector__panel--child.is-active {
-    transform: translateX(0);
-  }
-
-  .trip-selector__panel--child:not(.is-active) {
-    display: block;
-    pointer-events: none;
+  .trip-selector__menu.has-active .trip-selector__panel--root {
+    display: none;
   }
 }
 

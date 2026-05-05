@@ -109,7 +109,7 @@ export const TripSelector = ({ trip, onTripChange }: TripSelectorProps) => {
       {isOpen && createPortal(
         <div
           ref={menuRef}
-          className="trip-selector__menu"
+          className={`trip-selector__menu ${activeCategory ? 'has-active' : ''}`}
           role="menu"
           style={{
             '--menu-left': `${menuPos.left}px`,
