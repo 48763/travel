@@ -40,21 +40,37 @@ function dayCount(first: string, last: string): number {
   return Math.round((b - a) / 86400000) + 1;
 }
 
-// 把連續同行政區的地點合併。consolidation key 用整個 adminPath
-// （地理同 = 全路徑相同），display 用 path 最後一段（最具體的「區/市」級）。
-// 機場、車站等 transit 點不算「目的地」、跳過不顯示在 compact 卡片。
-const TRANSIT_KINDS = new Set(['airport', 'station']);
+// Transit 用符號表達（連續同種 transit 合併成一個圖示）
+const TRANSIT_ICONS: Record<string, string> = {
+  airport: '✈',
+  station: '🚆',
+};
 
-function consolidatedRegions(trip: TripDefinition): string[] {
-  const out: string[] = [];
+interface Step {
+  kind: 'place' | 'transit';
+  display: string;
+}
+
+// 把連續同行政區的地點合併（compact card 用）。
+//   - 一般地點：用 adminPath 當 dedupe key、最後一段當顯示文字
+//   - transit (機場/車站)：用 kind 當 dedupe key、轉成 ✈ / 🚆 圖示
+function consolidatedSteps(trip: TripDefinition): Step[] {
+  const out: Step[] = [];
   let lastKey: string | null = null;
   for (const loc of trip.locations ?? []) {
+    const transitIcon = TRANSIT_ICONS[loc.kind ?? ''];
+    if (transitIcon) {
+      const key = `transit:${loc.kind}`;
+      if (key === lastKey) continue;
+      out.push({ kind: 'transit', display: transitIcon });
+      lastKey = key;
+      continue;
+    }
     if (!loc.path) continue;
-    if (TRANSIT_KINDS.has(loc.kind ?? '')) continue;
     if (loc.path === lastKey) continue;
     const parts = loc.path.split(',').map((s) => s.trim()).filter(Boolean);
     const display = parts[parts.length - 1] ?? loc.label ?? '';
-    if (display) out.push(display);
+    if (display) out.push({ kind: 'place', display });
     lastKey = loc.path;
   }
   return out;
@@ -97,7 +113,8 @@ const TripCard = ({
 }: TripCardProps) => {
   const range = tripDateRange(trip);
   const accentStyle = { '--card-accent': trip.accent } as CSSProperties;
-  const compactRegions = consolidatedRegions(trip);
+  const compactSteps = consolidatedSteps(trip);
+  const compactDisplay = compactSteps.map((s) => s.display).join(' → ');
 
   if (isExpanded) {
     return (
@@ -201,12 +218,12 @@ const TripCard = ({
               {dayCount(range.first, range.last)} 天
             </span>
           )}
-          {compactRegions.length > 0 && (
+          {compactSteps.length > 0 && (
             <span
               className="trip-card__location"
-              title={compactRegions.join(' → ')}
+              title={compactDisplay}
             >
-              📍 {compactRegions.join(' → ')}
+              📍 {compactDisplay}
             </span>
           )}
         </div>
