@@ -87,29 +87,11 @@ export default defineTrip(
         type: 'luggage'
       },
       {
-        time: '10:30',
-        title: '前往 日比谷公園',
-        lines: [
-          { name: 'U', color: '#E5821D', description: 'ゆりかもめ, 往新橋, 有明テニスの森 → 新橋, 約 23 分鐘' },
-          { name: 'JY', color: '#9ACD32', description: 'JR 山手線, 往東京方向, 新橋 → 有楽町, 約 2 分鐘' }
-        ],
-        type: 'train'
-      },
-      {
         time: '11:00',
         title: 'Pokémon GO Fest 公園遊記',
         details: '本次旅程的主要活動內容。',
-        address: '東京都千代田区日比谷公園',
+        address: '東京臨海副都心',
         type: 'activity'
-      },
-      {
-        time: '19:30',
-        title: '回 有明 取行李',
-        lines: [
-          { name: 'JY', color: '#9ACD32', description: 'JR 山手線, 往新橋方向, 有楽町 → 新橋, 約 2 分鐘' },
-          { name: 'U', color: '#E5821D', description: 'ゆりかもめ, 往豊洲, 新橋 → 有明テニスの森, 約 23 分鐘' }
-        ],
-        type: 'train'
       },
       {
         time: '20:00',
