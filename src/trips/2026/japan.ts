@@ -62,6 +62,12 @@ export default defineTrip(
         details: '步行約 5 分鐘',
         address: '東京都江東区有明2丁目1-8',
         type: 'shopping'
+      },
+      {
+        time: '23:00',
+        title: '回到 維拉芳泉東京有明大飯店',
+        address: '東京都江東区有明2丁目1-5',
+        type: 'walking'
       }
     ]
   },
@@ -134,10 +140,22 @@ export default defineTrip(
     date: d(5, 30),
     events: [
       {
+        time: '10:00',
+        title: '從 濱松町京王布萊索飯店 出發',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
+      },
+      {
         time: '全天',
         title: '彈性行程日',
         details: '本日為彈性時間，可自由安排。',
         type: 'schedule'
+      },
+      {
+        time: '23:00',
+        title: '回到 濱松町京王布萊索飯店',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
       }
     ]
   },
@@ -145,10 +163,22 @@ export default defineTrip(
     date: d(5, 31),
     events: [
       {
+        time: '10:00',
+        title: '從 濱松町京王布萊索飯店 出發',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
+      },
+      {
         time: '全天',
         title: '城市散步 & Pokémon Go',
         details: '探索城市的其他區域。',
         type: 'activity'
+      },
+      {
+        time: '23:00',
+        title: '回到 濱松町京王布萊索飯店',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
       }
     ]
   },
@@ -233,6 +263,12 @@ export default defineTrip(
     date: d(6, 2),
     events: [
       {
+        time: '10:00',
+        title: '從 濱松町京王布萊索飯店 出發',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
+      },
+      {
         time: '全天',
         title: '彈性行程日',
         details: '本日為彈性時間，可自由安排。',
@@ -243,6 +279,12 @@ export default defineTrip(
         title: '與布來燈碰面',
         details: '計畫會面地點與時間。',
         type: 'social'
+      },
+      {
+        time: '23:00',
+        title: '回到 濱松町京王布萊索飯店',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
       }
     ]
   },
@@ -250,10 +292,22 @@ export default defineTrip(
     date: d(6, 3),
     events: [
       {
+        time: '10:00',
+        title: '從 濱松町京王布萊索飯店 出發',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
+      },
+      {
         time: '未定',
         title: '未定行程',
         details: '請在此填寫您的計畫...',
         type: 'unknown'
+      },
+      {
+        time: '23:00',
+        title: '回到 濱松町京王布萊索飯店',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
       }
     ]
   },
@@ -261,10 +315,22 @@ export default defineTrip(
     date: d(6, 4),
     events: [
       {
+        time: '10:00',
+        title: '從 濱松町京王布萊索飯店 出發',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
+      },
+      {
         time: '未定',
         title: '未定行程',
         details: '請在此填寫您的計畫...',
         type: 'unknown'
+      },
+      {
+        time: '23:00',
+        title: '回到 濱松町京王布萊索飯店',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
       }
     ]
   },
@@ -272,10 +338,22 @@ export default defineTrip(
     date: d(6, 5),
     events: [
       {
+        time: '10:00',
+        title: '從 濱松町京王布萊索飯店 出發',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
+      },
+      {
         time: '未定',
         title: '未定行程',
         details: '請在此填寫您的計畫...',
         type: 'unknown'
+      },
+      {
+        time: '23:00',
+        title: '回到 濱松町京王布萊索飯店',
+        address: '東京都港区浜松町1丁目18-11',
+        type: 'walking'
       }
     ]
   },
