@@ -81,11 +81,45 @@ export default defineTrip(
         type: 'luggage'
       },
       {
-        time: '10:00',
+        time: '10:30',
+        title: '前往 日比谷公園',
+        lines: [
+          { name: 'U', color: '#E5821D', description: 'ゆりかもめ, 往新橋, 有明テニスの森 → 新橋, 約 23 分鐘' },
+          { name: 'JY', color: '#9ACD32', description: 'JR 山手線, 往東京方向, 新橋 → 有楽町, 約 2 分鐘' }
+        ],
+        type: 'train'
+      },
+      {
+        time: '11:00',
         title: 'Pokémon GO Fest 公園遊記',
         details: '本次旅程的主要活動內容。',
         address: '東京都千代田区日比谷公園',
         type: 'activity'
+      },
+      {
+        time: '19:30',
+        title: '回 有明 取行李',
+        lines: [
+          { name: 'JY', color: '#9ACD32', description: 'JR 山手線, 往新橋方向, 有楽町 → 新橋, 約 2 分鐘' },
+          { name: 'U', color: '#E5821D', description: 'ゆりかもめ, 往豊洲, 新橋 → 有明テニスの森, 約 23 分鐘' }
+        ],
+        type: 'train'
+      },
+      {
+        time: '20:00',
+        title: '取行李',
+        details: '從 維拉芳泉東京有明大飯店 取出寄存的行李',
+        address: '東京都江東区有明2丁目1-5',
+        type: 'luggage'
+      },
+      {
+        time: '20:30',
+        title: '前往 濱松町京王布萊索飯店',
+        lines: [
+          { name: 'U', color: '#E5821D', description: 'ゆりかもめ, 往新橋, 有明テニスの森 → 新橋, 約 23 分鐘' },
+          { name: 'JY', color: '#9ACD32', description: 'JR 山手線, 往品川方向, 新橋 → 浜松町, 約 2 分鐘' }
+        ],
+        type: 'train'
       },
       {
         time: '22:00',
@@ -122,10 +156,76 @@ export default defineTrip(
     date: d(6, 1),
     events: [
       {
-        time: '全天',
-        title: '彈性行程日',
-        details: '本日為彈性時間，可自由安排。',
-        type: 'schedule'
+        time: '10:00',
+        title: '前往 淺草',
+        lines: [
+          { name: 'A', color: '#EF4868', description: '都営浅草線, 往押上方面, 大門 → 浅草, 約 14 分鐘' }
+        ],
+        type: 'train'
+      },
+      {
+        time: '10:30',
+        title: '一蘭拉麵 淺草店',
+        details: '本日第一餐\n雷門徒步約 1 分鐘',
+        address: '東京都台東区浅草1丁目17-4',
+        type: 'food'
+      },
+      {
+        time: '11:30',
+        title: 'Flower Miffy',
+        details: '米菲兔主題花店',
+        address: '東京都台東区浅草1丁目19-2',
+        type: 'shopping'
+      },
+      {
+        time: '12:00',
+        title: '淺草寺',
+        details: '雷門 / 仲見世通 / 本堂',
+        address: '東京都台東区浅草2丁目3-1',
+        type: 'walking'
+      },
+      {
+        time: '14:30',
+        title: '前往 東京晴空塔',
+        lines: [
+          { name: 'TS', color: '#F18F1F', description: '東武スカイツリーライン, 往北千住方面, 浅草 → とうきょうスカイツリー, 約 3 分鐘' }
+        ],
+        type: 'train'
+      },
+      {
+        time: '15:00',
+        title: '晴空塔 Solamachi 百貨 + 寶可夢中心',
+        details: '寶可夢中心 Skytree Town 位於 Solamachi 4F\n沿途逛百貨樓層',
+        address: '東京都墨田区押上1丁目1-2',
+        type: 'shopping'
+      },
+      {
+        time: '17:00',
+        title: '墨田水族館',
+        details: 'Solamachi 5-6F',
+        address: '東京都墨田区押上1丁目1-2',
+        type: 'activity'
+      },
+      {
+        time: '19:00',
+        title: 'Tokyo Solamachi LOFT',
+        details: 'Solamachi 2F',
+        address: '東京都墨田区押上1丁目1-2',
+        type: 'shopping'
+      },
+      {
+        time: '20:00',
+        title: '晚餐',
+        details: 'Solamachi 餐廳街',
+        type: 'food'
+      },
+      {
+        time: '21:00',
+        title: '回 濱松町京王布萊索飯店',
+        lines: [
+          { name: 'A', color: '#EF4868', description: '都営浅草線直通, 往泉岳寺方面, 押上 → 大門, 約 20 分鐘' }
+        ],
+        type: 'train'
       }
     ]
   },
