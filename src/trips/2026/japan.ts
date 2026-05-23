@@ -122,12 +122,6 @@ export default defineTrip(
     date: d(5, 30),
     events: [
       {
-        time: '10:00',
-        title: '從 濱松町京王布萊索飯店 出發',
-        address: '東京都港区浜松町1丁目18-11',
-        type: 'walking'
-      },
-      {
         time: '全天',
         title: '彈性行程日',
         details: '本日為彈性時間，可自由安排。',
@@ -144,12 +138,6 @@ export default defineTrip(
   {
     date: d(5, 31),
     events: [
-      {
-        time: '10:00',
-        title: '從 濱松町京王布萊索飯店 出發',
-        address: '東京都港区浜松町1丁目18-11',
-        type: 'walking'
-      },
       {
         time: '全天',
         title: '城市散步 & Pokémon Go',
@@ -226,13 +214,7 @@ export default defineTrip(
         type: 'shopping'
       },
       {
-        time: '20:00',
-        title: '晚餐',
-        details: 'Solamachi 餐廳街',
-        type: 'food'
-      },
-      {
-        time: '21:00',
+        time: '22:40',
         title: '回 濱松町京王布萊索飯店',
         lines: [
           { name: 'A', color: '#EF4868', description: '都営浅草線直通, 往泉岳寺方面, 押上 → 大門, 約 20 分鐘' }
@@ -244,12 +226,6 @@ export default defineTrip(
   {
     date: d(6, 2),
     events: [
-      {
-        time: '10:00',
-        title: '從 濱松町京王布萊索飯店 出發',
-        address: '東京都港区浜松町1丁目18-11',
-        type: 'walking'
-      },
       {
         time: '全天',
         title: '彈性行程日',
@@ -274,12 +250,6 @@ export default defineTrip(
     date: d(6, 3),
     events: [
       {
-        time: '10:00',
-        title: '從 濱松町京王布萊索飯店 出發',
-        address: '東京都港区浜松町1丁目18-11',
-        type: 'walking'
-      },
-      {
         time: '未定',
         title: '未定行程',
         details: '請在此填寫您的計畫...',
@@ -297,12 +267,6 @@ export default defineTrip(
     date: d(6, 4),
     events: [
       {
-        time: '10:00',
-        title: '從 濱松町京王布萊索飯店 出發',
-        address: '東京都港区浜松町1丁目18-11',
-        type: 'walking'
-      },
-      {
         time: '未定',
         title: '未定行程',
         details: '請在此填寫您的計畫...',
@@ -319,12 +283,6 @@ export default defineTrip(
   {
     date: d(6, 5),
     events: [
-      {
-        time: '10:00',
-        title: '從 濱松町京王布萊索飯店 出發',
-        address: '東京都港区浜松町1丁目18-11',
-        type: 'walking'
-      },
       {
         time: '未定',
         title: '未定行程',
