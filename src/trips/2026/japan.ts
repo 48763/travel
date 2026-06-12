@@ -13,6 +13,12 @@ export default defineTrip(
     date: d(5, 28),
     events: [
       {
+        time: '05:30',
+        title: '抵達松山機場',
+        address: '台北松山機場 (TSA)',
+        type: 'schedule'
+      },
+      {
         time: '07:20',
         title: '啟程飛往日本',
         details: '長榮航空 BR192\n台北松山 (TSA)',
@@ -47,26 +53,32 @@ export default defineTrip(
         time: '15:00',
         title: '入住 維拉芳泉東京有明大飯店',
         details: 'Villa Fontaine Grand Tokyo Ariake',
-        address: '東京都江東区有明2丁目1-5',
+        address: 'ヴィラフォンテーヌ グランド 東京有明',
         type: 'hotel'
       },
       {
-        time: '17:00',
-        title: '晚餐時間',
+        time: '17:30',
+        title: '飯店晚餐',
         details: '最晚點餐時間 21:30\n最晚用餐時間 22:00',
         type: 'food'
       },
       {
-        time: '19:30',
+        time: '18:30',
         title: '有明花園購物中心',
-        details: '步行約 5 分鐘',
-        address: '東京都江東区有明2丁目1-8',
+        details: '飯店旁，步行約 5 分鐘',
+        address: '有明ガーデン',
         type: 'shopping'
+      },
+      {
+        time: '20:40',
+        title: '123+N 東雲店',
+        address: '123+N 東雲店',
+        type: 'activity'
       },
       {
         time: '23:00',
         title: '回到 維拉芳泉東京有明大飯店',
-        address: '東京都江東区有明2丁目1-5',
+        address: 'ヴィラフォンテーヌ グランド 東京有明',
         type: 'walking'
       }
     ]
@@ -97,7 +109,7 @@ export default defineTrip(
         time: '20:00',
         title: '取行李',
         details: '從 維拉芳泉東京有明大飯店 取出寄存的行李',
-        address: '東京都江東区有明2丁目1-5',
+        address: 'ヴィラフォンテーヌ グランド 東京有明',
         type: 'luggage'
       },
       {
@@ -113,7 +125,7 @@ export default defineTrip(
         time: '22:00',
         title: '入住 濱松町京王布萊索飯店',
         details: 'Keio Presso Inn Hamamatsucho',
-        address: '東京都港区芝大門1丁目1-26',
+        address: '京王プレッソイン浜松町',
         type: 'hotel'
       }
     ]
@@ -130,7 +142,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区芝大門1丁目1-26',
+        address: '京王プレッソイン浜松町',
         type: 'walking'
       }
     ]
@@ -147,7 +159,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区芝大門1丁目1-26',
+        address: '京王プレッソイン浜松町',
         type: 'walking'
       }
     ]
@@ -167,21 +179,21 @@ export default defineTrip(
         time: '10:30',
         title: '一蘭拉麵 淺草店',
         details: '本日第一餐\n雷門徒步約 1 分鐘',
-        address: '東京都台東区浅草1丁目1-16',
+        address: '一蘭 浅草店',
         type: 'food'
       },
       {
         time: '11:30',
         title: 'Flower Miffy',
         details: '米菲兔主題花店',
-        address: '東京都台東区雷門2丁目19-7',
+        address: 'Flower Miffy 浅草店',
         type: 'shopping'
       },
       {
         time: '12:00',
         title: '淺草寺',
         details: '雷門 / 仲見世通 / 本堂',
-        address: '東京都台東区浅草2丁目3-1',
+        address: '浅草寺',
         type: 'walking'
       },
       {
@@ -196,21 +208,21 @@ export default defineTrip(
         time: '15:00',
         title: '晴空塔 Solamachi 百貨 + 寶可夢中心',
         details: '寶可夢中心 Skytree Town 位於 Solamachi 4F\n沿途逛百貨樓層',
-        address: '東京都墨田区押上1丁目1-2',
+        address: '東京ソラマチ',
         type: 'shopping'
       },
       {
         time: '17:00',
         title: '墨田水族館',
         details: 'Solamachi 5-6F',
-        address: '東京都墨田区押上1丁目1-2',
+        address: 'すみだ水族館',
         type: 'activity'
       },
       {
         time: '19:00',
         title: 'Tokyo Solamachi LOFT',
         details: 'Solamachi 2F',
-        address: '東京都墨田区押上1丁目1-2',
+        address: '東京ソラマチ',
         type: 'shopping'
       },
       {
@@ -241,7 +253,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区芝大門1丁目1-26',
+        address: '京王プレッソイン浜松町',
         type: 'walking'
       }
     ]
@@ -258,7 +270,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区芝大門1丁目1-26',
+        address: '京王プレッソイン浜松町',
         type: 'walking'
       }
     ]
@@ -275,7 +287,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区芝大門1丁目1-26',
+        address: '京王プレッソイン浜松町',
         type: 'walking'
       }
     ]
@@ -292,7 +304,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区芝大門1丁目1-26',
+        address: '京王プレッソイン浜松町',
         type: 'walking'
       }
     ]
