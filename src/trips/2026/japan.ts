@@ -113,7 +113,7 @@ export default defineTrip(
         time: '22:00',
         title: '入住 濱松町京王布萊索飯店',
         details: 'Keio Presso Inn Hamamatsucho',
-        address: '東京都港区浜松町1丁目18-11',
+        address: '東京都港区芝大門1丁目1-26',
         type: 'hotel'
       }
     ]
@@ -130,7 +130,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区浜松町1丁目18-11',
+        address: '東京都港区芝大門1丁目1-26',
         type: 'walking'
       }
     ]
@@ -147,7 +147,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区浜松町1丁目18-11',
+        address: '東京都港区芝大門1丁目1-26',
         type: 'walking'
       }
     ]
@@ -167,14 +167,14 @@ export default defineTrip(
         time: '10:30',
         title: '一蘭拉麵 淺草店',
         details: '本日第一餐\n雷門徒步約 1 分鐘',
-        address: '東京都台東区浅草1丁目17-4',
+        address: '東京都台東区浅草1丁目1-16',
         type: 'food'
       },
       {
         time: '11:30',
         title: 'Flower Miffy',
         details: '米菲兔主題花店',
-        address: '東京都台東区浅草1丁目19-2',
+        address: '東京都台東区雷門2丁目19-7',
         type: 'shopping'
       },
       {
@@ -241,7 +241,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区浜松町1丁目18-11',
+        address: '東京都港区芝大門1丁目1-26',
         type: 'walking'
       }
     ]
@@ -258,7 +258,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区浜松町1丁目18-11',
+        address: '東京都港区芝大門1丁目1-26',
         type: 'walking'
       }
     ]
@@ -275,7 +275,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区浜松町1丁目18-11',
+        address: '東京都港区芝大門1丁目1-26',
         type: 'walking'
       }
     ]
@@ -292,7 +292,7 @@ export default defineTrip(
       {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
-        address: '東京都港区浜松町1丁目18-11',
+        address: '東京都港区芝大門1丁目1-26',
         type: 'walking'
       }
     ]
