@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import { FaChevronLeft, FaArrowLeft } from 'react-icons/fa';
 import { trips } from './trips';
 import type { TripDefinition } from './trip';
@@ -15,7 +16,15 @@ type SidebarProps = {
 
 export const Sidebar = ({
   trip, isOpen, closeSidebar, closeOnMobile, todayIndex, onTripChange,
-}: SidebarProps) => (
+}: SidebarProps) => {
+  // 錨點不能交給瀏覽器預設行為：hash 被 App 當成 trip 路由 (#/<id>)，
+  // 改成 #day-3 會被解析成不存在的 trip 而跳回首頁，所以攔截後用 JS 捲動。
+  const jumpTo = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ block: 'start' });
+    closeOnMobile();
+  };
+  return (
   <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
     <div className="sidebar-header">
       <h2 className="sidebar-title">行程目錄</h2>
@@ -45,7 +54,11 @@ export const Sidebar = ({
               key={day.date}
               className={`sidebar-day ${isToday ? 'sidebar-day--today' : ''}`}
             >
-              <a href={`#day-${idx}`} className="sidebar-day-link" onClick={closeOnMobile}>
+              <a
+                href={`#day-${idx}`}
+                className="sidebar-day-link"
+                onClick={(e) => jumpTo(e, `day-${idx}`)}
+              >
                 {isToday && <span className="today-badge">今日</span>}
                 {formatDate(day.date)}
               </a>
@@ -55,7 +68,7 @@ export const Sidebar = ({
                     <a
                       href={`#event-${idx}-${evIdx}`}
                       className="sidebar-event-link"
-                      onClick={closeOnMobile}
+                      onClick={(e) => jumpTo(e, `event-${idx}-${evIdx}`)}
                     >
                       {ev.title}
                     </a>
@@ -68,4 +81,5 @@ export const Sidebar = ({
       </ul>
     </nav>
   </aside>
-);
+  );
+};
