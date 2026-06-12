@@ -21,11 +21,15 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      # key 帶 trip 檔案 hash：trip 一改 key 就變，跑完會回存更新後的 cache。
+      # （固定 key 在完全命中時 actions/cache 不會回存，新地址會每次重查。）
       - name: Restore geocode cache 📍
         uses: actions/cache@v4
         with:
           path: .places-cache
-          key: places-cache-v1
+          key: places-cache-${{ hashFiles('src/trips/**/*.ts') }}
+          restore-keys: |
+            places-cache-
 
       - name: Install and Build 🔧
         run: |
