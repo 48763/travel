@@ -262,7 +262,11 @@ async function main() {
         const note = result.matchedQuery !== addr ? ` (退階: "${result.matchedQuery}")` : '';
         console.log(`✓ ${result.adminPath || '(no admin)'} ${result.lat.toFixed(4)}, ${result.lng.toFixed(4)}${note}`);
       } else {
-        console.log('✗ 無結果');
+        // negative cache：查無結果也記下來，否則每次 dev/build 都會
+        // 重跑全部退階變體（一筆壞地址 ≈ 8 個變體 × 1.2s）。
+        // 要重試：手動刪掉 .places-cache/addresses.json 裡該筆。
+        cache[addr] = { failed: true };
+        console.log('✗ 無結果（已記錄，不再重試；要重查請刪 cache 該筆）');
       }
     } catch (err) {
       console.log(`✗ ${err.message}`);

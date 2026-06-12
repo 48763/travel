@@ -41,7 +41,10 @@ interface AddressEntry {
   kind?: LocationKind;
 }
 
-const addressCache = addresses as Record<string, AddressEntry>;
+// geocode script 查無結果的地址會記成 { failed: true }（negative cache）
+type CacheEntry = AddressEntry | { failed: true };
+
+const addressCache = addresses as Record<string, CacheEntry>;
 
 function deriveLocations(schedule: Day[]): TripLocation[] {
   const out: TripLocation[] = [];
@@ -49,7 +52,7 @@ function deriveLocations(schedule: Day[]): TripLocation[] {
     for (const event of day.events) {
       if (!event.address) continue;
       const cached = addressCache[event.address];
-      if (!cached) continue;
+      if (!cached || 'failed' in cached) continue;
       const label =
         cached.names['zh-Hant'] ??
         cached.names[cached.nativeLang] ??
