@@ -1,6 +1,7 @@
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import type { Event } from './types';
 import { EVENT_STYLE } from './eventStyle';
+import { PLACE_LINKS } from './placeLinks';
 
 type EventCardProps = {
   event: Event;
@@ -24,7 +25,7 @@ export const EventCard = ({ event, id }: EventCardProps) => {
           <div className="event-address">
             <FaMapMarkerAlt className="address-icon" />
             <a
-              href={event.mapUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
+              href={event.mapUrl ?? PLACE_LINKS[event.address] ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="address-link"

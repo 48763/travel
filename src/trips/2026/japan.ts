@@ -271,7 +271,6 @@ export default defineTrip(
         time: '18:00',
         title: '大耳狗咖啡廳',
         address: 'Cinnamoroll Cafe',
-        mapUrl: 'https://maps.app.goo.gl/KKd5VivKpvPUtJb9A',
         type: 'food'
       },
       {
