@@ -268,6 +268,12 @@ export default defineTrip(
         type: 'unknown'
       },
       {
+        time: '18:00',
+        title: '大耳狗咖啡廳',
+        address: 'Cinnamoroll Cafe',
+        type: 'food'
+      },
+      {
         time: '23:00',
         title: '回到 濱松町京王布萊索飯店',
         address: '京王プレッソイン浜松町',
