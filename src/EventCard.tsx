@@ -24,7 +24,7 @@ export const EventCard = ({ event, id }: EventCardProps) => {
           <div className="event-address">
             <FaMapMarkerAlt className="address-icon" />
             <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
+              href={event.mapUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="address-link"
