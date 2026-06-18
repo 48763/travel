@@ -189,12 +189,6 @@ export default defineTrip(
         type: 'shopping'
       },
       {
-        time: '11:00',
-        title: '一蘭 新橋店',
-        address: '一蘭 新橋店',
-        type: 'food'
-      },
-      {
         time: '13:00',
         title: 'Big Dipper Shimbashi',
         address: 'Big Dipper Shimbashi',
@@ -229,6 +223,12 @@ export default defineTrip(
         title: '有楽町 UNO',
         address: '有楽町 UNO',
         type: 'pachinko'
+      },
+      {
+        time: '23:00',
+        title: '一蘭 新橋店',
+        address: '一蘭 新橋店',
+        type: 'food'
       },
       {
         time: '00:00',
