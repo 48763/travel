@@ -142,31 +142,31 @@ export default defineTrip(
         type: 'pachinko'
       },
       {
-        time: '14:00',
+        time: '15:00',
         title: '新橋商店 総本店',
         address: '新橋商店 総本店',
         type: 'food'
       },
       {
-        time: '16:00',
+        time: '17:00',
         title: '博品館 TOY PARK',
         address: '博品館 TOY PARK',
         type: 'shopping'
       },
       {
-        time: '17:00',
+        time: '18:00',
         title: 'Uniqlo 銀座旗艦店',
         address: 'Uniqlo 銀座旗艦店',
         type: 'shopping'
       },
       {
-        time: '19:30',
+        time: '20:30',
         title: 'シルバニアファミリー 森のお家',
         address: 'シルバニアファミリー 森のお家',
         type: 'shopping'
       },
       {
-        time: '20:10',
+        time: '21:10',
         title: '有楽町 UNO',
         address: '有楽町 UNO',
         type: 'pachinko'
