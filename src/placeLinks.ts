@@ -17,4 +17,9 @@ export const PLACE_LINKS: Record<string, string> = {
   "Cinnamoroll Cafe": "https://maps.google.com/?cid=12163419718774346138",
   "東京臨海副都心 - 台場": "https://maps.app.goo.gl/EVzvaLa56hM7kA7W7",
   "Big Dipper Shimbashi": "https://maps.google.com/?cid=1804844718707474296",
+  "新橋商店 総本店": "https://maps.google.com/?cid=17290192335173148219",
+  "博品館 TOY PARK": "https://maps.google.com/?cid=15576708788006522373",
+  "Uniqlo 銀座旗艦店": "https://maps.google.com/?cid=5036491705805576403",
+  "シルバニアファミリー 森のお家": "https://maps.google.com/?cid=5591884443677766332",
+  "有楽町 UNO": "https://maps.google.com/?cid=564411483366123509",
 };

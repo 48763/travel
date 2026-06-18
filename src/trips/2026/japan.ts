@@ -136,14 +136,44 @@ export default defineTrip(
     date: d(5, 30),
     events: [
       {
-        time: '全天',
-        title: '彈性行程日',
-        details: '本日為彈性時間，可自由安排。',
-        type: 'schedule'
+        time: '13:00',
+        title: 'Big Dipper Shimbashi',
+        address: 'Big Dipper Shimbashi',
+        type: 'activity'
       },
       {
-        time: '23:00',
-        title: '回到 濱松町京王布萊索飯店',
+        time: '14:00',
+        title: '新橋商店 総本店',
+        address: '新橋商店 総本店',
+        type: 'shopping'
+      },
+      {
+        time: '16:00',
+        title: '博品館 TOY PARK',
+        address: '博品館 TOY PARK',
+        type: 'shopping'
+      },
+      {
+        time: '17:00',
+        title: 'Uniqlo 銀座旗艦店',
+        address: 'Uniqlo 銀座旗艦店',
+        type: 'shopping'
+      },
+      {
+        time: '19:30',
+        title: 'シルバニアファミリー 森のお家',
+        address: 'シルバニアファミリー 森のお家',
+        type: 'shopping'
+      },
+      {
+        time: '20:10',
+        title: '有楽町 UNO',
+        address: '有楽町 UNO',
+        type: 'activity'
+      },
+      {
+        time: '22:30',
+        title: '回飯店',
         address: '京王プレッソイン浜松町',
         type: 'walking'
       }
