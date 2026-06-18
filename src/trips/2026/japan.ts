@@ -183,12 +183,6 @@ export default defineTrip(
     date: d(5, 31),
     events: [
       {
-        time: '10:40',
-        title: 'マツモトキヨシ 有楽町イトシア店',
-        address: 'マツモトキヨシ 有楽町イトシア店',
-        type: 'shopping'
-      },
-      {
         time: '13:00',
         title: 'Big Dipper Shimbashi',
         address: 'Big Dipper Shimbashi',
@@ -223,6 +217,12 @@ export default defineTrip(
         title: '有楽町 UNO',
         address: '有楽町 UNO',
         type: 'pachinko'
+      },
+      {
+        time: '22:40',
+        title: 'マツモトキヨシ 有楽町イトシア店',
+        address: 'マツモトキヨシ 有楽町イトシア店',
+        type: 'shopping'
       },
       {
         time: '23:00',
