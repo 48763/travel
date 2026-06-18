@@ -22,4 +22,10 @@ export const PLACE_LINKS: Record<string, string> = {
   "Uniqlo 銀座旗艦店": "https://maps.google.com/?cid=5036491705805576403",
   "シルバニアファミリー 森のお家": "https://maps.google.com/?cid=5591884443677766332",
   "有楽町 UNO": "https://maps.google.com/?cid=564411483366123509",
+  "マツモトキヨシ 有楽町イトシア店": "https://maps.google.com/?cid=8657789242075139668",
+  "一蘭 新橋店": "https://maps.google.com/?cid=1837282406170052598",
+  "焼肉ライク 新橋店": "https://maps.google.com/?cid=268323974193459964",
+  "3COINS+plus 西銀座": "https://maps.google.com/?cid=2063383627992036788",
+  "サンリオワールド 銀座": "https://maps.google.com/?cid=1275612411136897480",
+  "セイムス 新橋日比谷口店": "https://maps.google.com/?cid=7391417068114962655",
 };

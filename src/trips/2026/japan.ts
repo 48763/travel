@@ -166,7 +166,7 @@ export default defineTrip(
         type: 'shopping'
       },
       {
-        time: '21:10',
+        time: '20:30',
         title: '有楽町 UNO',
         address: '有楽町 UNO',
         type: 'pachinko'
@@ -183,14 +183,62 @@ export default defineTrip(
     date: d(5, 31),
     events: [
       {
-        time: '全天',
-        title: '城市散步 & Pokémon Go',
-        details: '探索城市的其他區域。',
-        type: 'activity'
+        time: '10:40',
+        title: 'マツモトキヨシ 有楽町イトシア店',
+        address: 'マツモトキヨシ 有楽町イトシア店',
+        type: 'shopping'
       },
       {
-        time: '23:00',
-        title: '回到 濱松町京王布萊索飯店',
+        time: '11:00',
+        title: '一蘭 新橋店',
+        address: '一蘭 新橋店',
+        type: 'food'
+      },
+      {
+        time: '13:00',
+        title: 'Big Dipper Shimbashi',
+        address: 'Big Dipper Shimbashi',
+        type: 'pachinko'
+      },
+      {
+        time: '16:00',
+        title: '焼肉ライク 新橋店',
+        address: '焼肉ライク 新橋店',
+        type: 'food'
+      },
+      {
+        time: '17:00',
+        title: '銀座',
+        address: '銀座',
+        type: 'walking'
+      },
+      {
+        time: '17:30',
+        title: '3COINS+plus 西銀座',
+        address: '3COINS+plus 西銀座',
+        type: 'shopping'
+      },
+      {
+        time: '18:30',
+        title: 'サンリオワールド 銀座',
+        address: 'サンリオワールド 銀座',
+        type: 'shopping'
+      },
+      {
+        time: '20:10',
+        title: '有楽町 UNO',
+        address: '有楽町 UNO',
+        type: 'pachinko'
+      },
+      {
+        time: '00:00',
+        title: 'セイムス 新橋日比谷口店',
+        address: 'セイムス 新橋日比谷口店',
+        type: 'shopping'
+      },
+      {
+        time: '01:00',
+        title: '回飯店',
         address: '京王プレッソイン浜松町',
         type: 'walking'
       }
