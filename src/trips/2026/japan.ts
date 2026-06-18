@@ -99,6 +99,13 @@ export default defineTrip(
         type: 'luggage'
       },
       {
+        time: '15:00',
+        title: '入住 濱松町京王布萊索飯店',
+        details: 'Keio Presso Inn Hamamatsucho',
+        address: '京王プレッソイン浜松町',
+        type: 'hotel'
+      },
+      {
         time: '16:00',
         title: 'Pokémon GO Fest 公園遊記',
         details: '本次旅程的主要活動內容。',
@@ -108,9 +115,8 @@ export default defineTrip(
       {
         time: '20:00',
         title: '回飯店',
-        details: 'Keio Presso Inn Hamamatsucho',
         address: '京王プレッソイン浜松町',
-        type: 'hotel'
+        type: 'walking'
       },
       {
         time: '20:20',
