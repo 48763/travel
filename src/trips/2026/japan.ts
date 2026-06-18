@@ -102,7 +102,7 @@ export default defineTrip(
         time: '11:00',
         title: 'Pokémon GO Fest 公園遊記',
         details: '本次旅程的主要活動內容。',
-        address: '東京臨海副都心',
+        address: '東京臨海副都心 - 台場',
         type: 'activity'
       },
       {
