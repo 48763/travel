@@ -139,7 +139,7 @@ export default defineTrip(
         time: '13:00',
         title: 'Big Dipper Shimbashi',
         address: 'Big Dipper Shimbashi',
-        type: 'activity'
+        type: 'pachinko'
       },
       {
         time: '14:00',
