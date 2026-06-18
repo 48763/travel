@@ -160,7 +160,7 @@ export default defineTrip(
         type: 'shopping'
       },
       {
-        time: '20:30',
+        time: '19:30',
         title: 'シルバニアファミリー 森のお家',
         address: 'シルバニアファミリー 森のお家',
         type: 'shopping'
