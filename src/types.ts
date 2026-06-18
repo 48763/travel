@@ -7,6 +7,7 @@ export type EventType =
   | 'food'
   | 'shopping'
   | 'activity'
+  | 'pachinko'
   | 'walking'
   | 'luggage'
   | 'social'

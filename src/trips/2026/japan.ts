@@ -73,7 +73,7 @@ export default defineTrip(
         time: '20:40',
         title: '123+N 東雲店',
         address: '123+N 東雲店',
-        type: 'activity'
+        type: 'pachinko'
       },
       {
         time: '23:00',
@@ -145,7 +145,7 @@ export default defineTrip(
         time: '14:00',
         title: '新橋商店 総本店',
         address: '新橋商店 総本店',
-        type: 'shopping'
+        type: 'food'
       },
       {
         time: '16:00',
@@ -169,7 +169,7 @@ export default defineTrip(
         time: '20:10',
         title: '有楽町 UNO',
         address: '有楽町 UNO',
-        type: 'activity'
+        type: 'pachinko'
       },
       {
         time: '22:30',

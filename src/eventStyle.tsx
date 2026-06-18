@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import {
   FaPlaneDeparture, FaPlaneArrival, FaTrain, FaCalendarAlt,
   FaHotel, FaUtensils, FaShoppingBag, FaGamepad, FaWalking,
-  FaSuitcase, FaUserFriends, FaQuestionCircle,
+  FaSuitcase, FaUserFriends, FaQuestionCircle, FaDice,
 } from 'react-icons/fa';
 import type { EventType } from './types';
 
@@ -15,6 +15,7 @@ export const EVENT_STYLE: Record<EventType, { icon: ReactNode; color: string }> 
   food:           { icon: <FaUtensils />,       color: '#e67e22' },
   shopping:       { icon: <FaShoppingBag />,    color: '#27ae60' },
   activity:       { icon: <FaGamepad />,        color: '#2ecc71' },
+  pachinko:       { icon: <FaDice />,           color: '#e74c3c' },
   walking:        { icon: <FaWalking />,        color: '#2ecc71' },
   luggage:        { icon: <FaSuitcase />,       color: '#7f8c8d' },
   social:         { icon: <FaUserFriends />,    color: '#9b59b6' },
