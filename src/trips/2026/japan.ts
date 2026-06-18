@@ -99,7 +99,7 @@ export default defineTrip(
         type: 'luggage'
       },
       {
-        time: '11:00',
+        time: '16:00',
         title: 'Pokémon GO Fest 公園遊記',
         details: '本次旅程的主要活動內容。',
         address: '東京臨海副都心 - 台場',
@@ -107,26 +107,22 @@ export default defineTrip(
       },
       {
         time: '20:00',
-        title: '取行李',
-        details: '從 維拉芳泉東京有明大飯店 取出寄存的行李',
-        address: 'ヴィラフォンテーヌ グランド 東京有明',
-        type: 'luggage'
-      },
-      {
-        time: '20:30',
-        title: '前往 濱松町京王布萊索飯店',
-        lines: [
-          { name: 'U', color: '#E5821D', description: 'ゆりかもめ, 往新橋, 有明テニスの森 → 新橋, 約 23 分鐘' },
-          { name: 'JY', color: '#9ACD32', description: 'JR 山手線, 往品川方向, 新橋 → 浜松町, 約 2 分鐘' }
-        ],
-        type: 'train'
-      },
-      {
-        time: '22:00',
-        title: '入住 濱松町京王布萊索飯店',
+        title: '回飯店',
         details: 'Keio Presso Inn Hamamatsucho',
         address: '京王プレッソイン浜松町',
         type: 'hotel'
+      },
+      {
+        time: '20:20',
+        title: 'Big Dipper Shimbashi',
+        address: 'Big Dipper Shimbashi',
+        type: 'activity'
+      },
+      {
+        time: '23:00',
+        title: '回飯店',
+        address: '京王プレッソイン浜松町',
+        type: 'walking'
       }
     ]
   },
